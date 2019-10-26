@@ -10,6 +10,7 @@ package aps;
  * @author pedro
  */
 public class PCB {
+    public static int counter = 0;
     private String PID;
     private int arrival; // momento no tempo absoluto em que entra na fila ready
     private int duration; // número total de bursts necessários para completar a execução
@@ -17,8 +18,9 @@ public class PCB {
     private int priority;
     private List bursts;
 
-    public PCB(String PID, int arrival, int duration, int[] ioRequests, int priority) {
-        this.PID = PID;
+    public PCB(int arrival, int duration, int[] ioRequests, int priority) {
+        this.counter++;
+        this.PID = "PID-" + this.counter;
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = ioRequests;
