@@ -47,8 +47,40 @@ public class Main {
         System.out.println("waiting: " + pcb.waiting());
     }
     
+    public static void testarFilaDinamica() {
+        
+        int ioRequests1[] = { 3, 5, 7 } ;
+        PCB pcb1 = new PCB("PID-01", 2, 10, ioRequests1, 2);
+        int ioRequests2[] = { 4, 6, 8 } ;
+        PCB pcb2 = new PCB("PID-02", 1, 20, ioRequests2, 2);
+        int ioRequests3[] = { 5, 10, 11 } ;
+        PCB pcb3 = new PCB("PID-03", 0, 30, ioRequests3, 2);
+        
+        Queue fila = new Queue();
+        System.out.println("size: " + fila.getSize());
+        System.out.println("isEmpty: " + fila.isEmpty());
+        fila.enqueue(pcb1);
+        System.out.println("front: " + fila.front().toString());
+        System.out.println("size: " + fila.getSize());
+        System.out.println("isEmpty: " + fila.isEmpty());
+        fila.enqueue(pcb2);
+        System.out.println("front: " + fila.front().toString());
+        System.out.println("size: " + fila.getSize());
+        System.out.println("isEmpty: " + fila.isEmpty());
+        fila.enqueue(pcb3);
+        System.out.println("front: " + fila.front().toString());
+        System.out.println("size: " + fila.getSize());
+        System.out.println("isEmpty: " + fila.isEmpty());
+        System.out.println("dequeue: " + fila.dequeue().getPID());
+        System.out.println("dequeue: " + fila.dequeue().getPID());
+        System.out.println("dequeue: " + fila.dequeue().getPID());
+        System.out.println("size: " + fila.getSize());
+        System.out.println("isEmpty: " + fila.isEmpty());
+    }
+    
     public static void main(String[] args) {
-        testarPCB();
+        // testarPCB();
+        testarFilaDinamica();
     }
     
 }
