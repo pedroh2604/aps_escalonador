@@ -46,8 +46,12 @@ public class PCB {
         return this.priority;
     }
     
+    public int elapsed() {
+        return this.bursts.getSize();
+    }
+    
     public int remaining() {
-        return this.duration - this.bursts.getSize();
+        return this.duration - this.elapsed();
     }
 
     public boolean isStarted() {
