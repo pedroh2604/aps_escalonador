@@ -18,7 +18,7 @@ public class Main {
     public static void testarPCB() {
     
         int ioRequests[] = { 3, 5, 7 } ;
-        PCB pcb = new PCB("PID-01", 2, 10, ioRequests, 2);
+        PCB pcb = new PCB(2, 10, ioRequests, 2);
         pcb.executeBurst(3);
         pcb.executeBurst(4);
         pcb.executeBurst(5);
@@ -50,11 +50,11 @@ public class Main {
     public static void testarFilaDinamica() {
         
         int ioRequests1[] = { 3, 5, 7 } ;
-        PCB pcb1 = new PCB("PID-01", 2, 10, ioRequests1, 2);
+        PCB pcb1 = new PCB(2, 10, ioRequests1, 2);
         int ioRequests2[] = { 4, 6, 8 } ;
-        PCB pcb2 = new PCB("PID-02", 1, 20, ioRequests2, 2);
+        PCB pcb2 = new PCB(1, 20, ioRequests2, 2);
         int ioRequests3[] = { 5, 10, 11 } ;
-        PCB pcb3 = new PCB("PID-03", 0, 30, ioRequests3, 2);
+        PCB pcb3 = new PCB(0, 30, ioRequests3, 2);
         
         Queue fila = new Queue();
         System.out.println("size: " + fila.getSize());
@@ -79,7 +79,7 @@ public class Main {
     }
     
     public static void main(String[] args) {
-        // testarPCB();
+        testarPCB();
         testarFilaDinamica();
     }
     
