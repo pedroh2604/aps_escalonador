@@ -78,9 +78,42 @@ public class Main {
         System.out.println("isEmpty: " + fila.isEmpty());
     }
     
+    public static void testarLog() {
+        
+        String[] queue1 = { } ;
+        LogItem item1 = new LogItem(0, "PID-1", queue1);
+        String[] queue2 = { "PID-2", "PID-3" } ;
+        LogItem item2 = new LogItem(1, "PID-4", queue2);
+        String[] queue3 = { "PID-3" } ;
+        LogItem item3 = new LogItem(2, "PID-2", queue3);
+        String[] queue4 = { } ;
+        LogItem item4 = new LogItem(3, "PID-3", queue4);
+        Log log = new Log();
+        System.out.println("size: " + log.getSize());
+        System.out.println("isEmpty: " + log.isEmpty());
+        log.enqueue(item1);
+        log.enqueue(item2);
+        System.out.println("front: " + log.front().getPID());
+        System.out.println("size: " + log.getSize());
+        System.out.println("isEmpty: " + log.isEmpty());
+        log.enqueue(item3);
+        System.out.println("front: " + log.front().getPID());
+        System.out.println("size: " + log.getSize());
+        System.out.println("isEmpty: " + log.isEmpty());
+        System.out.println("Queue: " + log.toString());
+        System.out.println("Dequeue: " + log.dequeue().getPID());
+        log.enqueue(item4);
+        System.out.println("Queue: " + log.toString());
+        System.out.println("Dequeue: " + log.dequeue().getPID());
+        System.out.println("Queue: " + log.toString());
+        System.out.println("size: " + log.getSize());
+        System.out.println("isEmpty: " + log.isEmpty());
+    }
+    
     public static void main(String[] args) {
-        testarPCB();
-        testarFilaDinamica();
+//        testarPCB();
+//        testarFilaDinamica();
+        testarLog();
     }
     
 }

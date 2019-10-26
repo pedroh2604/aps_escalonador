@@ -11,32 +11,31 @@ package aps;
  */
 public class LogItem {
 
-//    private static int elapsedTime = -1;
-//    private String PID;
-//    private String[] queue;
-//
-//    public LogItem(String PID, String[] queue) {
-//        this.elapsedTime++;
-//        this.PID = PID;
-//        this.queue = queue;
-//    }
-//
-//    public static int getElapsedTime() {
-//        return elapsedTime;
-//    }
-//
-//    public String getPID() {
-//        return PID;
-//    }
-//
-//    public String[] getQueue() {
-//        return queue;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "LogItem{" + "executingPID=" + executingPID + ", queue=" + queue + '}';
-//    }
-    
-    
+    private int time;
+    private String PID;
+    private String[] queue;
+
+    public LogItem(int time, String PID, String[] queue) {
+        this.time = time;
+        this.PID = PID;
+        this.queue = queue;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public String getPID() {
+        return PID;
+    }
+
+    public String[] getQueue() {
+        return queue;
+    }
+
+    @Override
+    public String toString() {
+        return "LogItem{" + "time=" + time + ", PID=" + PID + ", queue=" + queue + '}';
+    }
+
 }

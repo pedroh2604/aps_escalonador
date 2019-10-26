@@ -11,7 +11,7 @@ package aps;
  */
 public class List {
     
-    private int elements[];
+    private int[] elements;
     private int size;
 
     public List(int size) {
