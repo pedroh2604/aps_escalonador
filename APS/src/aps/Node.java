@@ -10,11 +10,17 @@ package aps;
  * @author pedro
  */
 public class Node {
-    Process process;
-    Node nextNode;
     
-    public Node (Process process) {
-        this.process = process;
-        this.nextNode = null;
+    public PCB data;
+    public Node next;
+    
+    public Node (PCB pcb) {
+        this.data = pcb;
+        this.next = null;
+    }
+
+    @Override
+    public String toString() {
+        return this.data.toString();
     }
 }

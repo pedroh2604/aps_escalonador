@@ -10,61 +10,76 @@ package aps;
  * @author pedro
  */
 public class Queue {
-    private Node front;
-    private Node rear;
     
-    public Queue () {
-        this.front = null;
-        this.rear = null;
+    private Node head, tail;
+    private int size;
+
+    public Queue() {
+        size = 0;
+        this.head = this.tail = null;
+    }
+
+    public boolean isEmpty() {
+        return this.size == 0;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    public int getSize2() {
+        if (this.head == null) {
+            return 0;
+        }
+        int counter = 0;
+        Node next = this.head;
+        while (next != null) {
+            counter++;
+            next = next.next;
+        }
+        return counter;
+    }
+
+    public void enqueue(PCB pcb) {
+        Node node = new Node(pcb);
+        if (this.isEmpty()) {
+            this.head = this.tail = node;
+        } else {
+            this.tail.next = node;
+            this.tail = node;
+        }
+        this.size++;
+    }
+
+    public PCB dequeue() {
+        if (this.isEmpty()) {
+            throw new Error("A fila está vazia!");
+        }
+        PCB temp = this.head.data;
+        if (this.size == 1) {
+            this.head = this.tail = null;
+        } else {
+            this.head = this.head.next;
+        }
+        this.size--;
+        return temp;
     }
     
-    public boolean isEmpty () {return this.front == null;}
-    
-    public int size () {
-        int size = 0;
-        Node node = this.front;
-        
+    public PCB front() {
+        if (this.isEmpty()) {
+            throw new Error("A fila está vazia!");
+        }
+        return this.head.data;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        Node node = this.head;
         while (node != null) {
-            size += 1;
-            node = node.nextNode;
+            builder.append(node.data.toString()).append("\n");
+            node = node.next;
         }
-        
-        return size;
-    }
-    
-    public void enqueue (Process process) {
-        Node node = new Node(process);
-        if (isEmpty()) {
-            this.front = node;
-            this.rear = node;
-            return;
-        }
-        
-        this.rear.nextNode = node;
-        this.rear = node;
-    }
-    
-    public Process dequeue () throws Exception{
-        if(isEmpty()) {throw new Exception("queue is empty");}
-        
-        Process dequeuedElement = this.front.process;
-        
-        this.front = this.front.nextNode;
-        if (this.front == null) {this.rear = null;}
-        
-        return dequeuedElement;
-    }
-    
-    public void print () {
-        if (isEmpty()) {System.out.println("queue is empty"); return;}
-        
-        System.out.println("\n gonna print the queue elements");
-        
-        Node node = this.front;
-        
-        while (node != null) {
-            System.out.println("element: " + node.process);
-            node = node.nextNode;
-        }
+        return builder.toString().trim();
     }
 }
