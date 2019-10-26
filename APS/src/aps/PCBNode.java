@@ -9,12 +9,12 @@ package aps;
  *
  * @author pedro
  */
-public class Node {
+public class PCBNode {
     
     public PCB data;
-    public Node next;
+    public PCBNode next;
     
-    public Node (PCB pcb) {
+    public PCBNode (PCB pcb) {
         this.data = pcb;
         this.next = null;
     }

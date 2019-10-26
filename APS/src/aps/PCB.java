@@ -16,7 +16,7 @@ public class PCB {
     private int duration; // número total de bursts necessários para completar a execução
     private int ioRequests[]; // bursts em que haverá chamadas de i/o 
     private int priority;
-    private List bursts;
+    private BurstList bursts;
 
     public PCB(int arrival, int duration, int[] ioRequests, int priority) {
         this.counter++;
@@ -25,7 +25,7 @@ public class PCB {
         this.duration = duration;
         this.ioRequests = ioRequests;
         this.priority = priority;
-        this.bursts = new List(duration);
+        this.bursts = new BurstList(duration);
     }
 
     public String getPID() {
@@ -111,7 +111,7 @@ public class PCB {
         }
         return -1;
     }
-
+    
     @Override
     public String toString() {
         return "PCB{" + "PID=" + PID + ", arrival=" + arrival + ", duration=" + duration + ", ioRequests=" + ioRequests + ", priority=" + priority + '}';

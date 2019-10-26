@@ -9,12 +9,12 @@ package aps;
  *
  * @author cmlima
  */
-public class List {
+public class BurstList {
     
     private int[] elements;
     private int size;
 
-    public List(int size) {
+    public BurstList(int size) {
         this.size = 0;
         this.elements = new int[size];
     }

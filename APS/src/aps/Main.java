@@ -56,7 +56,7 @@ public class Main {
         int ioRequests3[] = { 5, 10, 11 } ;
         PCB pcb3 = new PCB(0, 30, ioRequests3, 2);
         
-        Queue fila = new Queue();
+        PCBQueue fila = new PCBQueue();
         System.out.println("size: " + fila.getSize());
         System.out.println("isEmpty: " + fila.isEmpty());
         fila.enqueue(pcb1);
@@ -110,10 +110,47 @@ public class Main {
         System.out.println("isEmpty: " + log.isEmpty());
     }
     
+    public static void testarSort() {
+        PCBList lista = new PCBList();
+
+        lista.add(new PCB(1, 10, new int[]{2, 6}, 4));
+        lista.add(new PCB(1, 15, new int[]{3}, 3));
+        lista.add(new PCB(0, 11, new int[]{5}, 2));
+        lista.add(new PCB(1, 13, new int[]{7}, 5));
+        lista.add(new PCB(5, 13, new int[]{7}, 5));
+        lista.add(new PCB(3, 13, new int[]{7}, 5));
+        lista.add(new PCB(6, 13, new int[]{7}, 5));
+        lista.add(new PCB(4, 13, new int[]{7}, 5));
+        lista.add(new PCB(2, 13, new int[]{7}, 5));
+        
+        lista.sort();
+        
+        System.out.println(lista.toString());
+    }
+
+    public static void testarRoundRobin() {
+        RoundRobin scheduler = new RoundRobin(4);
+
+        scheduler.addProcess(new PCB(1, 10, new int[]{2, 6}, 4));
+        scheduler.addProcess(new PCB(1, 15, new int[]{3}, 3));
+        scheduler.addProcess(new PCB(0, 11, new int[]{5}, 2));
+        scheduler.addProcess(new PCB(1, 13, new int[]{7}, 5));
+        scheduler.addProcess(new PCB(5, 13, new int[]{7}, 5));
+        scheduler.addProcess(new PCB(3, 13, new int[]{7}, 5));
+        scheduler.addProcess(new PCB(6, 13, new int[]{7}, 5));
+        scheduler.addProcess(new PCB(4, 13, new int[]{7}, 5));
+        scheduler.addProcess(new PCB(2, 13, new int[]{7}, 5));
+        
+        scheduler.execute();
+    }
+    
     public static void main(String[] args) {
 //        testarPCB();
 //        testarFilaDinamica();
-        testarLog();
+//        testarLog();
+//        testarSort();
+        testarRoundRobin();
+
     }
     
 }

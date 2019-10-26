@@ -9,12 +9,12 @@ package aps;
  *
  * @author pedro
  */
-public class Queue {
+public class PCBQueue {
     
-    private Node head, tail;
+    private PCBNode head, tail;
     private int size;
 
-    public Queue() {
+    public PCBQueue() {
         size = 0;
         this.head = this.tail = null;
     }
@@ -32,7 +32,7 @@ public class Queue {
             return 0;
         }
         int counter = 0;
-        Node next = this.head;
+        PCBNode next = this.head;
         while (next != null) {
             counter++;
             next = next.next;
@@ -41,7 +41,7 @@ public class Queue {
     }
 
     public void enqueue(PCB pcb) {
-        Node node = new Node(pcb);
+        PCBNode node = new PCBNode(pcb);
         if (this.isEmpty()) {
             this.head = this.tail = node;
         } else {
@@ -75,9 +75,9 @@ public class Queue {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        Node node = this.head;
+        PCBNode node = this.head;
         while (node != null) {
-            builder.append(node.data.toString()).append("\n");
+            builder.append(node.data.getPID()).append(" ");
             node = node.next;
         }
         return builder.toString().trim();
