@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aps;
+package data_structures;
 
 /**
  *
  * @author pedro
+ * @param <T>
  */
-public class Queue {
+public class Queue<T extends IEquatable & IComparable> {
     
-    private Node head, tail;
+    private Node<T> head, tail;
     private int size;
 
     public Queue() {
@@ -32,7 +33,7 @@ public class Queue {
             return 0;
         }
         int counter = 0;
-        Node next = this.head;
+        Node<T> next = this.head;
         while (next != null) {
             counter++;
             next = next.next;
@@ -40,8 +41,8 @@ public class Queue {
         return counter;
     }
 
-    public void enqueue(PCB pcb) {
-        Node node = new Node(pcb);
+    public void enqueue(T data) {
+        Node<T> node = new Node<>(data);
         if (this.isEmpty()) {
             this.head = this.tail = node;
         } else {
@@ -51,11 +52,11 @@ public class Queue {
         this.size++;
     }
 
-    public PCB dequeue() {
+    public T dequeue() {
         if (this.isEmpty()) {
-            throw new Error("A fila está vazia!");
+            return null;
         }
-        PCB temp = this.head.data;
+        T temp = this.head.data;
         if (this.size == 1) {
             this.head = this.tail = null;
         } else {
@@ -65,9 +66,9 @@ public class Queue {
         return temp;
     }
     
-    public PCB front() {
+    public T front() {
         if (this.isEmpty()) {
-            throw new Error("A fila está vazia!");
+            return null;
         }
         return this.head.data;
     }
@@ -75,9 +76,9 @@ public class Queue {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        Node node = this.head;
+        Node<T> node = this.head;
         while (node != null) {
-            builder.append(node.data.toString()).append("\n");
+            builder.append(node.data.toString()).append(" ");
             node = node.next;
         }
         return builder.toString().trim();
