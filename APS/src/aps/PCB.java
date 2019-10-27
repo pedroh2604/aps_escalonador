@@ -23,6 +23,12 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     private final List<Burst> bursts;
 
     public PCB(int arrival, int duration, int[] ioRequests, int priority) {
+        if (arrival < 0) {
+            throw new Error("O parâmetro arrival deve ser positivo");
+        }
+        if (priority < 0 || priority > 4) {
+            throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
+        }
         counter++;
         this.PID = "PID-" + counter;
         this.arrival = arrival;
