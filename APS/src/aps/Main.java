@@ -23,7 +23,7 @@ public class Main {
         System.out.println("\n\n****** TESTANDO PCB ******\n");
         
         int ioRequests[] = { 3, 5, 7 } ;
-        PCB pcb = new PCB(2, 10, ioRequests, 2);
+        Process pcb = new Process(2, 10, ioRequests, 2);
         pcb.executeBurst(3);
         pcb.executeBurst(4);
         pcb.executeBurst(5);
@@ -57,13 +57,13 @@ public class Main {
         System.out.println("\n\n****** TESTANDO FILA DINÂMICA ******\n");
         
         int ioRequests1[] = { 3, 5, 7 } ;
-        PCB pcb1 = new PCB(2, 10, ioRequests1, 2);
+        Process pcb1 = new Process(2, 10, ioRequests1, 2);
         int ioRequests2[] = { 4, 6, 8 } ;
-        PCB pcb2 = new PCB(1, 20, ioRequests2, 2);
+        Process pcb2 = new Process(1, 20, ioRequests2, 2);
         int ioRequests3[] = { 5, 10, 11 } ;
-        PCB pcb3 = new PCB(0, 30, ioRequests3, 2);
+        Process pcb3 = new Process(0, 30, ioRequests3, 2);
         
-        Queue<PCB> fila = new Queue<>();
+        Queue<Process> fila = new Queue<>();
         System.out.println("size: " + fila.getSize());
         System.out.println("isEmpty: " + fila.isEmpty());
         fila.enqueue(pcb1);
@@ -123,17 +123,17 @@ public class Main {
         
         System.out.println("\n\n****** TESTANDO SORT ******\n");
         
-        List<PCB> lista = new List<>();
+        List<Process> lista = new List<>();
 
-        lista.add(new PCB(1, 10, new int[]{2, 6}, 4));
-        lista.add(new PCB(1, 15, new int[]{3}, 3));
-        lista.add(new PCB(0, 11, new int[]{5}, 2));
-        lista.add(new PCB(1, 13, new int[]{7}, 4));
-        lista.add(new PCB(5, 13, new int[]{7}, 4));
-        lista.add(new PCB(3, 13, new int[]{7}, 4));
-        lista.add(new PCB(6, 13, new int[]{7}, 4));
-        lista.add(new PCB(4, 13, new int[]{7}, 4));
-        lista.add(new PCB(2, 13, new int[]{7}, 4));
+        lista.add(new Process(1, 10, new int[]{2, 6}, 4));
+        lista.add(new Process(1, 15, new int[]{3}, 3));
+        lista.add(new Process(0, 11, new int[]{5}, 2));
+        lista.add(new Process(1, 13, new int[]{7}, 4));
+        lista.add(new Process(5, 13, new int[]{7}, 4));
+        lista.add(new Process(3, 13, new int[]{7}, 4));
+        lista.add(new Process(6, 13, new int[]{7}, 4));
+        lista.add(new Process(4, 13, new int[]{7}, 4));
+        lista.add(new Process(2, 13, new int[]{7}, 4));
         
         lista.sort();
         
@@ -145,17 +145,18 @@ public class Main {
         
         System.out.println("\n\n****** TESTANDO ROUND ROBIN ******\n");
         
-        RoundRobin scheduler = new RoundRobin(4);
+        Scheduler scheduler = new Scheduler(ALGORITHM.ROUND_ROBIN);
+        scheduler.setQuantum(4);
 
-        scheduler.addProcess(new PCB(1, 10, new int[]{2, 6}, 4));
-        scheduler.addProcess(new PCB(1, 15, new int[]{3}, 3));
-        scheduler.addProcess(new PCB(0, 11, new int[]{5}, 2));
-        scheduler.addProcess(new PCB(1, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(5, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(3, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(6, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(4, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(2, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(1, 10, new int[]{}, 4));
+        scheduler.addProcess(new Process(1, 15, new int[]{3}, 3));
+        scheduler.addProcess(new Process(0, 11, new int[]{5}, 2));
+        scheduler.addProcess(new Process(1, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(5, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(3, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(6, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(4, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(2, 13, new int[]{7}, 4));
         
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
@@ -164,18 +165,18 @@ public class Main {
     public static void testarPrioridadePreemptivo() {
         
         System.out.println("\n\n****** TESTANDO PRIORIDADE PREEMPTIVO ******\n");
-        
-        PriorityPreemptive scheduler = new PriorityPreemptive();
 
-        scheduler.addProcess(new PCB(1, 10, new int[]{2, 6}, 4));
-        scheduler.addProcess(new PCB(1, 15, new int[]{3}, 3));
-        scheduler.addProcess(new PCB(0, 11, new int[]{5}, 2));
-        scheduler.addProcess(new PCB(1, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(5, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(3, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(6, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(4, 13, new int[]{7}, 4));
-        scheduler.addProcess(new PCB(2, 13, new int[]{7}, 4));
+        Scheduler scheduler = new Scheduler(ALGORITHM.PRIORITY_PREEMPTIVE);
+        
+        scheduler.addProcess(new Process(1, 10, new int[]{}, 4));
+        scheduler.addProcess(new Process(1, 15, new int[]{3}, 3));
+        scheduler.addProcess(new Process(0, 11, new int[]{5}, 2));
+        scheduler.addProcess(new Process(1, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(5, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(3, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(6, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(4, 13, new int[]{7}, 4));
+        scheduler.addProcess(new Process(2, 13, new int[]{7}, 4));
         
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
