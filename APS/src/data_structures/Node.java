@@ -3,24 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aps;
+package data_structures;
 
 /**
  *
- * @author pedro
+ * @author cmlima
+ * @param <T>
  */
-public class PCBNode {
+public class Node<T> {
+
+    public T data;
+    public Node next;
     
-    public PCB data;
-    public PCBNode next;
-    
-    public PCBNode (PCB pcb) {
-        this.data = pcb;
+    public Node (T data) {
+        this.data = data;
         this.next = null;
     }
-
+    
     @Override
     public String toString() {
         return this.data.toString();
     }
+
+    
 }

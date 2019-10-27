@@ -5,17 +5,21 @@
  */
 package aps;
 
+import data_structures.IComparable;
+import data_structures.IEquatable;
+import data_structures.Queue;
+
 /**
  *
  * @author cmlima
  */
-public class LogItem {
+public class LogItem implements IEquatable<LogItem>, IComparable<LogItem> {
 
     private int time;
     private String PID;
-    private String[] queue;
+    private String queue;
 
-    public LogItem(int time, String PID, String[] queue) {
+    public LogItem(int time, String PID, String queue) {
         this.time = time;
         this.PID = PID;
         this.queue = queue;
@@ -29,13 +33,22 @@ public class LogItem {
         return PID;
     }
 
-    public String[] getQueue() {
+    public String getQueue() {
         return queue;
     }
 
     @Override
-    public String toString() {
-        return "LogItem{" + "time=" + time + ", PID=" + PID + ", queue=" + queue + '}';
+    public int compareTo(LogItem other) {
+        return this.getTime() - other.getTime();
     }
 
+    @Override
+    public boolean isEqual(LogItem other) {
+        return this.getTime() == other.getTime();
+    }
+    
+    @Override
+    public String toString() {
+        return this.getTime() + " " + this.getPID();
+    }
 }

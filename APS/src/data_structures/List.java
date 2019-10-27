@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aps;
+package data_structures;
 
 /**
  *
  * @author cmlima
+ * @param <T>
  */
-public class PCBList {
+public class List<T extends IEquatable & IComparable> {
 
-    private PCBNode first;
-    private PCBNode last;
+    private Node<T> first;
+    private Node<T> last;
     private int size;
 
-    public PCBList() {
+    public List() {
         this.size = 0;
     }
 
@@ -27,22 +28,22 @@ public class PCBList {
         return this.size == 0;
     }
     
-    public boolean exists(PCB search) {
-        PCBNode node = this.first;
+    public boolean exists(T search) {
+        Node<T> node = this.first;
         while (node != null) {
-            if (node.data.getPID() == null ? search.getPID() == null : node.data.getPID().equals(search.getPID())) {
+            if (node.data.isEqual(search)) {
                 return true;
             }
             node = node.next;
         }
         return false;
     }
-    
-    public boolean add(PCB data, int position) {
+
+    public boolean add(T data, int position) {
         if (position > this.size || position < 0) {
             return false;
         }
-        PCBNode newNode = new PCBNode(data);
+        Node<T> newNode = new Node<>(data);
         if (position == 0 && this.isEmpty()) {
             this.first = this.last = newNode;
         } else {
@@ -55,7 +56,7 @@ public class PCBList {
                     this.last = newNode;
                 } else {
                     int counter = 0;
-                    PCBNode temp = this.first;
+                    Node<T> temp = this.first;
                     while (counter < position - 1) {
                         temp = temp.next;
                         counter++;
@@ -69,8 +70,8 @@ public class PCBList {
         return true;
     }
 
-    public void add(PCB data) {
-        PCBNode newNode = new PCBNode(data);
+    public void add(T data) {
+        Node<T> newNode = new Node<>(data);
         if (this.isEmpty()) {
             this.first = this.last = newNode;
         } else {
@@ -80,11 +81,11 @@ public class PCBList {
         this.size++;
     }
     
-    public PCB removeAt(int position) {
+    public T removeAt(int position) {
         if (this.isEmpty() || position > this.size || position < 0) {
             throw new Error("Posição inválida");
         }
-        PCB temp;
+        T temp;
         if (position == 0) {
             temp = this.first.data;
             if (this.size == 1) {
@@ -94,12 +95,12 @@ public class PCBList {
             }
         } else {
             int counter = 0;
-            PCBNode previous = this.first;
+            Node<T> previous = this.first;
             while (counter < position - 1) {
                 previous = previous.next;
                 counter++;
             }
-            PCBNode removed = previous.next;
+            Node<T> removed = previous.next;
             temp = removed.data;
             previous.next = removed.next;
         }
@@ -107,7 +108,7 @@ public class PCBList {
         return temp;
     }
 
-    public boolean remove(PCB data) {
+    public boolean remove(T data) {
         int position = this.indexOf(data);
         if (position > 0) {
             this.removeAt(position);
@@ -116,10 +117,10 @@ public class PCBList {
         return false;        
     }
 
-    public boolean set(PCB data, int position) {
+    public boolean set(T data, int position) {
         if (!(this.isEmpty() || position < 0 || position >= this.size)) {
             int counter = 0;
-            PCBNode node = this.first;
+            Node<T> node = this.first;
             while (counter < position) {
                 node = node.next;
                 counter++;
@@ -130,12 +131,12 @@ public class PCBList {
         return false;        
     }
     
-    public PCB get(int position) {
+    public T get(int position) {
         if (this.isEmpty() || position < 0 || position >= this.size) {
             throw new Error("Índice inválido");
         }
         int counter = 0;
-        PCBNode node = this.first;
+        Node<T> node = this.first;
         while (counter < position) {
             node = node.next;
             counter++;
@@ -143,11 +144,11 @@ public class PCBList {
         return node.data;
     }
         
-    public int indexOf(PCB search) {
+    public int indexOf(T search) {
         int counter = 0;
-        PCBNode node = this.first;
+        Node<T> node = this.first;
         while (node != null) {
-            if (node.data.getPID() == null ? search.getPID() == null : node.data.getPID().equals(search.getPID())) {
+            if (node.data.isEqual(search)) {
                 return counter;
             }
             counter++;
@@ -156,23 +157,13 @@ public class PCBList {
         return -1;
     }
     
-    private int compareTo(PCB pcb1, PCB pcb2) {
-        if (pcb1.getArrival() > pcb2.getArrival()) {
-            return 1;
-        }
-        if (pcb1.getArrival() < pcb2.getArrival()) {
-            return -1;
-        }
-        return pcb1.getPID().compareTo(pcb2.getPID());
-    };
-    
     public void sort() {
         boolean sorted = false;
-        PCB temp;
+        T temp;
         while (!sorted) {
             sorted = true;
             for (int i = 0; i < this.getSize() - 1; i ++) {
-                if (this.compareTo(this.get(i), this.get(i + 1)) > 0) {
+                if (this.get(i).compareTo(this.get(i + 1)) > 0) {
                     temp = this.get(i);
                     this.set(this.get(i + 1), i);
                     this.set(temp, i + 1);
@@ -185,11 +176,14 @@ public class PCBList {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        PCBNode node = this.first;
+        Node<T> node = this.first;
         while (node != null) {
-            builder.append(node.data.getPID()).append(" ");
+            builder.append(node.data.toString()).append(" ");
             node = node.next;
         }
         return builder.toString().trim();
     }    
+
+
+    
 }

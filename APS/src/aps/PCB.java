@@ -5,37 +5,41 @@
  */
 package aps;
 
+import data_structures.IEquatable;
+import data_structures.IComparable;
+import data_structures.List;
+
 /**
  *
  * @author pedro
  */
-public class PCB {
+public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     public static int counter = 0;
-    private String PID;
-    private int arrival; // momento no tempo absoluto em que entra na fila ready
-    private int duration; // número total de bursts necessários para completar a execução
-    private int ioRequests[]; // bursts em que haverá chamadas de i/o 
-    private int priority;
-    private BurstList bursts;
+    private final String PID;
+    private final int arrival; // momento no tempo absoluto em que entra na fila ready
+    private final int duration; // número total de bursts necessários para completar a execução
+    private final int ioRequests[]; // bursts em que haverá chamadas de i/o 
+    private final int priority;
+    private final List<Burst> bursts;
 
     public PCB(int arrival, int duration, int[] ioRequests, int priority) {
-        this.counter++;
-        this.PID = "PID-" + this.counter;
+        counter++;
+        this.PID = "PID-" + counter;
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = ioRequests;
         this.priority = priority;
-        this.bursts = new BurstList(duration);
+        this.bursts = new List<>();
     }
 
     public String getPID() {
-        return this.PID;
+        return PID;
     }
 
     public int getArrival() {
-        return this.arrival;
+        return arrival;
     }
-
+    
     public int getDuration() {
         return this.duration;
     }
@@ -61,12 +65,12 @@ public class PCB {
     }
 
     public boolean isCompleted() {
-        return this.bursts.isFull();
+        return this.bursts.getSize() == this.duration;
     }
 
     public void executeBurst(int time) {
         if (!this.isCompleted()) {
-            this.bursts.add(time);
+            this.bursts.add(new Burst(time));
         }
     }
     
@@ -81,17 +85,16 @@ public class PCB {
         return false;
     }
 
-
     public int startTime() {
         if (this.isStarted()) {
-            return this.bursts.get(0);            
+            return this.bursts.get(0).time;            
         }
         return -1;
     }
 
     public int endTime() {
         if (this.isCompleted()) {
-            return this.bursts.get(this.bursts.getSize() - 1);        
+            return this.bursts.get(this.bursts.getSize() - 1).time;        
         }
         return -1;
     }
@@ -111,9 +114,25 @@ public class PCB {
         }
         return -1;
     }
-    
+
+    @Override
+    public int compareTo(PCB other) {
+        if (this.getArrival() > other.getArrival()) {
+            return 1;
+        }
+        if (this.getArrival() < other.getArrival()) {
+            return -1;
+        }
+        return this.getPID().compareTo(other.getPID());
+    }
+
+    @Override
+    public boolean isEqual(PCB other) {
+        return this.getPID().equals(other.getPID());
+    }
+
     @Override
     public String toString() {
-        return "PCB{" + "PID=" + PID + ", arrival=" + arrival + ", duration=" + duration + ", ioRequests=" + ioRequests + ", priority=" + priority + '}';
-    }    
+        return this.getPID();
+    }
 }
