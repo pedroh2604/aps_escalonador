@@ -45,7 +45,7 @@ public class Dispatcher {
         this.cpu.tick();
     }
 
-    public void dispatch(Process process, int bursts, String queue) {
+    public void dispatch(PCB process, int bursts, String queue) {
         for (int i = 0; i < bursts; i++) {
             process.executeBurst(this.getTime());
             this.log.add(new LogItem(this.getTime(), process.getPID(), process.getPriority(), queue));

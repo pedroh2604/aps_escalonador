@@ -13,7 +13,7 @@ import data_structures.List;
  *
  * @author pedro
  */
-public class Process implements IEquatable<Process>, IComparable<Process> {
+public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     public static int counter = 0;
     private final String PID;
     private final int arrival; // momento no tempo absoluto em que entra na fila ready
@@ -22,7 +22,7 @@ public class Process implements IEquatable<Process>, IComparable<Process> {
     private final int priority;
     private final List<Burst> bursts;
 
-    public Process(int arrival, int duration, int[] ioRequests, int priority) {
+    public PCB(int arrival, int duration, int[] ioRequests, int priority) {
         if (arrival < 0) {
             throw new Error("O parâmetro arrival deve ser positivo");
         }
@@ -31,6 +31,21 @@ public class Process implements IEquatable<Process>, IComparable<Process> {
         }
         counter++;
         this.PID = "PID-" + counter;
+        this.arrival = arrival;
+        this.duration = duration;
+        this.ioRequests = ioRequests;
+        this.priority = priority;
+        this.bursts = new List<>();
+    }
+
+        public PCB(String PID, int arrival, int duration, int[] ioRequests, int priority) {
+        if (arrival < 0) {
+            throw new Error("O parâmetro arrival deve ser positivo");
+        }
+        if (priority < 0 || priority > 4) {
+            throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
+        }
+        this.PID = PID;
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = ioRequests;
@@ -122,7 +137,7 @@ public class Process implements IEquatable<Process>, IComparable<Process> {
     }
 
     @Override
-    public int compareTo(Process other) {
+    public int compareTo(PCB other) {
         if (this.getArrival() > other.getArrival()) {
             return 1;
         }
@@ -133,7 +148,7 @@ public class Process implements IEquatable<Process>, IComparable<Process> {
     }
 
     @Override
-    public boolean isEqual(Process other) {
+    public boolean isEqual(PCB other) {
         return this.getPID().equals(other.getPID());
     }
 
