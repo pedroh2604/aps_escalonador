@@ -72,6 +72,12 @@ public class Queue<T extends IEquatable & IComparable> {
         }
         return this.head.data;
     }
+    
+    public void clear() {
+        while(!this.isEmpty()) {
+            this.dequeue();
+        }
+    }
 
     @Override
     public String toString() {

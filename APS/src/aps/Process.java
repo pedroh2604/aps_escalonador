@@ -13,7 +13,7 @@ import data_structures.List;
  *
  * @author pedro
  */
-public class PCB implements IEquatable<PCB>, IComparable<PCB> {
+public class Process implements IEquatable<Process>, IComparable<Process> {
     public static int counter = 0;
     private final String PID;
     private final int arrival; // momento no tempo absoluto em que entra na fila ready
@@ -22,7 +22,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     private final int priority;
     private final List<Burst> bursts;
 
-    public PCB(int arrival, int duration, int[] ioRequests, int priority) {
+    public Process(int arrival, int duration, int[] ioRequests, int priority) {
         if (arrival < 0) {
             throw new Error("O parâmetro arrival deve ser positivo");
         }
@@ -122,7 +122,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     }
 
     @Override
-    public int compareTo(PCB other) {
+    public int compareTo(Process other) {
         if (this.getArrival() > other.getArrival()) {
             return 1;
         }
@@ -133,7 +133,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     }
 
     @Override
-    public boolean isEqual(PCB other) {
+    public boolean isEqual(Process other) {
         return this.getPID().equals(other.getPID());
     }
 
