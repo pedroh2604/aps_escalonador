@@ -5,8 +5,15 @@
  */
 package aps;
 
+import aps.helpers.FileHelpers;
+import aps.helpers.JSON;
+import aps.helpers.RandomGenerator;
 import data_structures.List;
 import data_structures.Queue;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +30,7 @@ public class Main {
         System.out.println("\n\n****** TESTANDO PCB ******\n");
         
         int ioRequests[] = { 3, 5, 7 } ;
-        Process pcb = new Process(2, 10, ioRequests, 2);
+        PCB pcb = new PCB(2, 10, ioRequests, 2);
         pcb.executeBurst(3);
         pcb.executeBurst(4);
         pcb.executeBurst(5);
@@ -57,13 +64,13 @@ public class Main {
         System.out.println("\n\n****** TESTANDO FILA DINÂMICA ******\n");
         
         int ioRequests1[] = { 3, 5, 7 } ;
-        Process pcb1 = new Process(2, 10, ioRequests1, 2);
+        PCB pcb1 = new PCB(2, 10, ioRequests1, 2);
         int ioRequests2[] = { 4, 6, 8 } ;
-        Process pcb2 = new Process(1, 20, ioRequests2, 2);
+        PCB pcb2 = new PCB(1, 20, ioRequests2, 2);
         int ioRequests3[] = { 5, 10, 11 } ;
-        Process pcb3 = new Process(0, 30, ioRequests3, 2);
+        PCB pcb3 = new PCB(0, 30, ioRequests3, 2);
         
-        Queue<Process> fila = new Queue<>();
+        Queue<PCB> fila = new Queue<>();
         System.out.println("size: " + fila.getSize());
         System.out.println("isEmpty: " + fila.isEmpty());
         fila.enqueue(pcb1);
@@ -123,17 +130,17 @@ public class Main {
         
         System.out.println("\n\n****** TESTANDO SORT ******\n");
         
-        List<Process> lista = new List<>();
+        List<PCB> lista = new List<>();
 
-        lista.add(new Process(1, 10, new int[]{2, 6}, 4));
-        lista.add(new Process(1, 15, new int[]{3}, 3));
-        lista.add(new Process(0, 11, new int[]{5}, 2));
-        lista.add(new Process(1, 13, new int[]{7}, 4));
-        lista.add(new Process(5, 13, new int[]{7}, 4));
-        lista.add(new Process(3, 13, new int[]{7}, 4));
-        lista.add(new Process(6, 13, new int[]{7}, 4));
-        lista.add(new Process(4, 13, new int[]{7}, 4));
-        lista.add(new Process(2, 13, new int[]{7}, 4));
+        lista.add(new PCB(1, 10, new int[]{2, 6}, 4));
+        lista.add(new PCB(1, 15, new int[]{3}, 3));
+        lista.add(new PCB(0, 11, new int[]{5}, 2));
+        lista.add(new PCB(1, 13, new int[]{7}, 4));
+        lista.add(new PCB(5, 13, new int[]{7}, 4));
+        lista.add(new PCB(3, 13, new int[]{7}, 4));
+        lista.add(new PCB(6, 13, new int[]{7}, 4));
+        lista.add(new PCB(4, 13, new int[]{7}, 4));
+        lista.add(new PCB(2, 13, new int[]{7}, 4));
         
         lista.sort();
         
@@ -148,15 +155,15 @@ public class Main {
         Scheduler scheduler = new Scheduler(ALGORITHM.ROUND_ROBIN);
         scheduler.setQuantum(4);
 
-        scheduler.addProcess(new Process(1, 10, new int[]{}, 4));
-        scheduler.addProcess(new Process(1, 15, new int[]{3}, 3));
-        scheduler.addProcess(new Process(0, 11, new int[]{5}, 2));
-        scheduler.addProcess(new Process(1, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(5, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(3, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(6, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(4, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(2, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(1, 10, new int[]{}, 4));
+        scheduler.addProcess(new PCB(1, 15, new int[]{3}, 3));
+        scheduler.addProcess(new PCB(0, 11, new int[]{5}, 2));
+        scheduler.addProcess(new PCB(1, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(5, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(3, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(6, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(4, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(2, 13, new int[]{7}, 4));
         
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
@@ -168,18 +175,57 @@ public class Main {
 
         Scheduler scheduler = new Scheduler(ALGORITHM.PRIORITY_PREEMPTIVE);
         
-        scheduler.addProcess(new Process(1, 10, new int[]{}, 4));
-        scheduler.addProcess(new Process(1, 15, new int[]{3}, 3));
-        scheduler.addProcess(new Process(0, 11, new int[]{5}, 2));
-        scheduler.addProcess(new Process(1, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(5, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(3, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(6, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(4, 13, new int[]{7}, 4));
-        scheduler.addProcess(new Process(2, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(1, 10, new int[]{}, 4));
+        scheduler.addProcess(new PCB(1, 15, new int[]{3}, 3));
+        scheduler.addProcess(new PCB(0, 11, new int[]{5}, 2));
+        scheduler.addProcess(new PCB(1, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(5, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(3, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(6, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(4, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(2, 13, new int[]{7}, 4));
         
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
+    }
+    
+    public static void testarHelpers() {
+        try {
+            List<PCB> lista = RandomGenerator.generatePCBList(10, 0, 50);
+            System.out.println("size: " + lista.getSize());
+            System.out.println(lista.toString());
+            for (int i = 0; i < 10; i++) {
+                System.out.println(lista.get(i).toString());
+                System.out.println(lista.get(i).getArrival());
+                System.out.println(lista.get(i).getDuration());
+                System.out.println(Arrays.toString(lista.get(i).getIoRequests()));        
+                System.out.println(lista.get(i).getPriority());
+            }
+            String json = JSON.stringify(lista, 4);
+            //System.out.println(json);
+            List<PCB> nova = JSON.parse(json);
+            System.out.println(nova.toString());
+            for (int i = 0; i < nova.getSize(); i++) {
+                System.out.println(nova.get(i).toString());
+                System.out.println(nova.get(i).getArrival());
+                System.out.println(nova.get(i).getDuration());
+                System.out.println(Arrays.toString(nova.get(i).getIoRequests()));
+                System.out.println(nova.get(i).getPriority());
+            }
+            FileHelpers.save(nova, "C:\\Users\\cmlima\\Desenvolvimento\\UAM\\teste.json");
+            List<PCB> novissima = FileHelpers.load("C:\\Users\\cmlima\\Desenvolvimento\\UAM\\teste.json");
+            for (int i = 0; i < novissima.getSize(); i++) {
+                System.out.println(novissima.get(i).toString());
+                System.out.println(novissima.get(i).getArrival());
+                System.out.println(novissima.get(i).getDuration());
+                System.out.println(Arrays.toString(novissima.get(i).getIoRequests()));
+                System.out.println(novissima.get(i).getPriority());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
     
     public static void main(String[] args) {
@@ -188,7 +234,8 @@ public class Main {
 //        testarLog();
 //        testarSort();
 //        testarRoundRobin();
-        testarPrioridadePreemptivo();
+//        testarPrioridadePreemptivo();
+        testarHelpers();
 
     }
     

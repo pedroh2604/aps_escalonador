@@ -16,12 +16,12 @@ public class Scheduler {
     private ALGORITHM algorithm;
     private int quantum = 1;
     private Dispatcher dispatcher;
-    private List<Process> jobs;         // fila de novos
-    private Queue<Process> ready;       // fila de prontos
-    private List<Process> priority[];   // vetor de filas de prontos por prioridade (somente para prioridade preemptivo)
-    private Queue<Process> wait;        // fila de processos com execução suspensa, esperando para voltar à fila de prontos
-    private Queue<Process> io;          // fila de processos em chamada de I/O
-    private Queue<Process> completed;   // fila de processos encerrados
+    private List<PCB> jobs;         // fila de novos
+    private Queue<PCB> ready;       // fila de prontos
+    private List<PCB> priority[];   // vetor de filas de prontos por prioridade (somente para prioridade preemptivo)
+    private Queue<PCB> wait;        // fila de processos com execução suspensa, esperando para voltar à fila de prontos
+    private Queue<PCB> io;          // fila de processos em chamada de I/O
+    private Queue<PCB> completed;   // fila de processos encerrados
 
     public Scheduler(ALGORITHM algorithm) {
         this.algorithm = algorithm;
@@ -47,13 +47,13 @@ public class Scheduler {
         }
     }
     
-    public void addProcess(Process pcb) {
+    public void addProcess(PCB pcb) {
         this.jobs.add(pcb);
     }
     
     private void updatePriorityLists() {
         if (this.algorithm == ALGORITHM.PRIORITY_PREEMPTIVE) {
-            Queue<Process> temp = new Queue<>();
+            Queue<PCB> temp = new Queue<>();
             while (!this.ready.isEmpty()) {
                 temp.enqueue(this.ready.dequeue());
             }
@@ -86,7 +86,7 @@ public class Scheduler {
                 this.ready.enqueue(this.wait.dequeue());
             }
         } else {
-            Queue<Process> temp = new Queue<>();
+            Queue<PCB> temp = new Queue<>();
             while (!this.wait.isEmpty()) {
                 temp.enqueue(this.wait.dequeue());
             }
@@ -107,7 +107,7 @@ public class Scheduler {
         this.rescueWaitingJobs();
     }
     
-    private Queue<Process> getReadyQueue() {
+    private Queue<PCB> getReadyQueue() {
         this.updateReadyQueue();
         if (this.algorithm == ALGORITHM.PRIORITY_PREEMPTIVE) {
             this.ready.clear();
@@ -136,9 +136,9 @@ public class Scheduler {
         this.jobs.sort();
         this.dispatcher = new Dispatcher();
         while (!this.isCompleted()) {
-            Queue<Process> queue = this.getReadyQueue();
+            Queue<PCB> queue = this.getReadyQueue();
             if (queue != null && !queue.isEmpty()) {
-                Process running = queue.dequeue();
+                PCB running = queue.dequeue();
                 this.dispatcher.dispatch(running, this.quantum, queue.toString());
                 if (running.isCompleted()) {
                     this.completed.enqueue(running);
