@@ -17,11 +17,13 @@ public class LogItem implements IEquatable<LogItem>, IComparable<LogItem> {
 
     private int time;
     private String PID;
+    private int priority;
     private String queue;
 
-    public LogItem(int time, String PID, String queue) {
+    public LogItem(int time, String PID, int priority, String queue) {
         this.time = time;
         this.PID = PID;
+        this.priority = priority;
         this.queue = queue;
     }
 
@@ -31,6 +33,10 @@ public class LogItem implements IEquatable<LogItem>, IComparable<LogItem> {
 
     public String getPID() {
         return PID;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     public String getQueue() {

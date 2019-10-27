@@ -13,10 +13,11 @@ import data_structures.Queue;
  * @author cmlima
  */
 public class RoundRobin {
-    private static int elapsedTime = -1;
+    private int elapsedTime;
     private int quantum;
     private List<PCB> list;
     private Queue<PCB> ready;
+    private Queue<PCB> io;
     private Queue<PCB> completed;
     private List<LogItem> log;
 
@@ -24,6 +25,7 @@ public class RoundRobin {
         this.quantum = quantum;
         this.list = new List<>();
         this.ready = new Queue<>();
+        this.io = new Queue<>();
         this.completed = new Queue<>();
         this.log = new List<>();
     }
@@ -35,36 +37,48 @@ public class RoundRobin {
     public void addProcess(PCB pcb) {
         this.list.add(pcb);
     }
-    
-    public void execute() {
-        this.list.sort();
-        while (!this.list.isEmpty()) {
+
+    private void checkArrivals() {
+        while (!this.list.isEmpty() && this.list.get(0).getArrival() <= this.elapsedTime) {
             this.ready.enqueue(this.list.removeAt(0));
         }
-        while (!this.ready.isEmpty()) {
-            if (this.ready.front().isStarted() || this.ready.front().getArrival() <= elapsedTime) {
+        while (!this.io.isEmpty()) {
+            this.ready.enqueue(this.io.dequeue());
+        }
+    }
+
+    private boolean isCompleted() {
+        return this.list.isEmpty()
+        && this.io.isEmpty()
+        && this.ready.isEmpty();
+    }
+
+    public void execute() {
+        this.elapsedTime = -1;
+        this.list.sort();
+        while (!this.isCompleted()) {
+            this.elapsedTime++;
+            this.checkArrivals();
+            if (!this.ready.isEmpty()) {
                 PCB running = this.ready.dequeue();
                 for (int i = 0; i < this.quantum; i++) {
-                    running.executeBurst(elapsedTime);
-                    this.log.add(new LogItem(elapsedTime, running.getPID(), this.ready.toString()));
-                    elapsedTime++;
+                    running.executeBurst(this.elapsedTime);
+                    this.log.add(new LogItem(this.elapsedTime, running.getPID(), running.getPriority(), this.ready.toString()));
+                    this.elapsedTime++;
                     if (running.isCompleted()) {
                         this.completed.enqueue(running);
                         break;
                     }
                     if (running.isIORequested()) {
+                        this.io.enqueue(running);
                         break;
                     }
                 }
-                if (!running.isCompleted()) {
+                if (!running.isCompleted() && !running.isIORequested()) {
                     this.ready.enqueue(running);
                 }
-            } else {
-                elapsedTime++;
             }
         }
-        System.out.println(this.ready.toString());
-        System.out.println(this.completed.toString());
     }
 
     @Override

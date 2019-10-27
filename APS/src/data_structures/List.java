@@ -162,7 +162,7 @@ public class List<T extends IEquatable & IComparable> {
         T temp;
         while (!sorted) {
             sorted = true;
-            for (int i = 0; i < this.getSize() - 1; i ++) {
+            for (int i = 0; i < this.getSize() - 1; i++) {
                 if (this.get(i).compareTo(this.get(i + 1)) > 0) {
                     temp = this.get(i);
                     this.set(this.get(i + 1), i);

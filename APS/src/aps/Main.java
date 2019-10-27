@@ -90,13 +90,13 @@ public class Main {
         System.out.println("\n\n****** TESTANDO LOG ******\n");
         
         String queue1 = "";
-        LogItem item1 = new LogItem(0, "PID-1", queue1);
+        LogItem item1 = new LogItem(0, "PID-1", 4, queue1);
         String queue2 = "PID-2 PID-3";
-        LogItem item2 = new LogItem(1, "PID-4", queue2);
+        LogItem item2 = new LogItem(1, "PID-4", 3, queue2);
         String queue3 = "PID-3";
-        LogItem item3 = new LogItem(2, "PID-2", queue3);
+        LogItem item3 = new LogItem(2, "PID-2", 4, queue3);
         String queue4 = "";
-        LogItem item4 = new LogItem(3, "PID-3", queue4);
+        LogItem item4 = new LogItem(3, "PID-3", 2, queue4);
         List<LogItem> log = new List<>();
         System.out.println("size: " + log.getSize());
         System.out.println("isEmpty: " + log.isEmpty());
@@ -128,15 +128,16 @@ public class Main {
         lista.add(new PCB(1, 10, new int[]{2, 6}, 4));
         lista.add(new PCB(1, 15, new int[]{3}, 3));
         lista.add(new PCB(0, 11, new int[]{5}, 2));
-        lista.add(new PCB(1, 13, new int[]{7}, 5));
-        lista.add(new PCB(5, 13, new int[]{7}, 5));
-        lista.add(new PCB(3, 13, new int[]{7}, 5));
-        lista.add(new PCB(6, 13, new int[]{7}, 5));
-        lista.add(new PCB(4, 13, new int[]{7}, 5));
-        lista.add(new PCB(2, 13, new int[]{7}, 5));
+        lista.add(new PCB(1, 13, new int[]{7}, 4));
+        lista.add(new PCB(5, 13, new int[]{7}, 4));
+        lista.add(new PCB(3, 13, new int[]{7}, 4));
+        lista.add(new PCB(6, 13, new int[]{7}, 4));
+        lista.add(new PCB(4, 13, new int[]{7}, 4));
+        lista.add(new PCB(2, 13, new int[]{7}, 4));
         
         lista.sort();
         
+        System.out.println(lista.getSize());
         System.out.println(lista.toString());
     }
 
@@ -149,23 +150,44 @@ public class Main {
         scheduler.addProcess(new PCB(1, 10, new int[]{2, 6}, 4));
         scheduler.addProcess(new PCB(1, 15, new int[]{3}, 3));
         scheduler.addProcess(new PCB(0, 11, new int[]{5}, 2));
-        scheduler.addProcess(new PCB(1, 13, new int[]{7}, 5));
-        scheduler.addProcess(new PCB(5, 13, new int[]{7}, 5));
-        scheduler.addProcess(new PCB(3, 13, new int[]{7}, 5));
-        scheduler.addProcess(new PCB(6, 13, new int[]{7}, 5));
-        scheduler.addProcess(new PCB(4, 13, new int[]{7}, 5));
-        scheduler.addProcess(new PCB(2, 13, new int[]{7}, 5));
+        scheduler.addProcess(new PCB(1, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(5, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(3, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(6, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(4, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(2, 13, new int[]{7}, 4));
+        
+        scheduler.execute();
+        System.out.println("Resultado\n" + scheduler.toString());
+    }
+
+    public static void testarPrioridadePreemptivo() {
+        
+        System.out.println("\n\n****** TESTANDO PRIORIDADE PREEMPTIVO ******\n");
+        
+        PriorityPreemptive scheduler = new PriorityPreemptive();
+
+        scheduler.addProcess(new PCB(1, 10, new int[]{2, 6}, 4));
+        scheduler.addProcess(new PCB(1, 15, new int[]{3}, 3));
+        scheduler.addProcess(new PCB(0, 11, new int[]{5}, 2));
+        scheduler.addProcess(new PCB(1, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(5, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(3, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(6, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(4, 13, new int[]{7}, 4));
+        scheduler.addProcess(new PCB(2, 13, new int[]{7}, 4));
         
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
     }
     
     public static void main(String[] args) {
-        testarPCB();
-        testarFilaDinamica();
-        testarLog();
-        testarSort();
-        testarRoundRobin();
+//        testarPCB();
+//        testarFilaDinamica();
+//        testarLog();
+//        testarSort();
+//        testarRoundRobin();
+        testarPrioridadePreemptivo();
 
     }
     
