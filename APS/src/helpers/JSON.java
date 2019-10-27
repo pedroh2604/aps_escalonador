@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aps.helpers;
+package helpers;
 
 import aps.PCB;
 import data_structures.List;

@@ -5,9 +5,9 @@
  */
 package aps;
 
-import aps.helpers.FileHelpers;
-import aps.helpers.JSON;
-import aps.helpers.RandomGenerator;
+import helpers.FileHelpers;
+import helpers.JSON;
+import helpers.RandomGenerator;
 import data_structures.List;
 import data_structures.Queue;
 import java.io.IOException;
