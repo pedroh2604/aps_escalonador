@@ -45,12 +45,12 @@ public class Dispatcher {
         this.cpu.tick();
     }
 
-    public void dispatch(PCB process, int bursts, String queue) {
+    public void dispatch(PCB pcb, int bursts, String queue) {
         for (int i = 0; i < bursts; i++) {
-            process.executeBurst(this.getTime());
-            this.log.add(new LogItem(this.getTime(), process.getPID(), process.getPriority(), queue));
+            pcb.executeBurst(this.getTime());
+            this.log.add(new LogItem(this.getTime(), pcb.getPID(), pcb.getPriority(), queue));
             this.cpu.tick();
-            if (process.isCompleted() || process.isIORequested()) {
+            if (pcb.isCompleted() || pcb.isIORequested()) {
                 break;
             }
         }

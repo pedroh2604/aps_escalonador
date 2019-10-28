@@ -115,7 +115,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
 
     public int endTime() {
         if (this.isCompleted()) {
-            return this.bursts.get(this.bursts.getSize() - 1).time;        
+            return this.bursts.get(this.bursts.getSize() - 1).time + 1;        
         }
         return -1;
     }
@@ -134,6 +134,19 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
             return waitToStart + waitDuringBursts;
         }
         return -1;
+    }
+    
+    public String getTimeLine() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.PID).append(": ");
+        for (int i = 0; i < this.bursts.getSize(); i++) {
+            builder.append(this.bursts.get(i).time).append(" ");
+        }
+        builder.append("(arrival: ").append(this.arrival).append(", ");
+        builder.append("duration: ").append(this.duration).append(", ");
+        builder.append("turnaround: ").append(this.turnaround()).append(", ");
+        builder.append("waiting: ").append(this.waiting()).append(")");
+        return builder.toString().trim();
     }
 
     @Override

@@ -167,6 +167,10 @@ public class Main {
         
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
+        
+        System.out.println("avgTurnaround: " + scheduler.avgTurnaround());
+        System.out.println("avgWaiting: " + scheduler.avgWaiting());
+        System.out.println("TimeLines: \n" + scheduler.getTimeLines());
     }
 
     public static void testarPrioridadePreemptivo() {
@@ -187,6 +191,12 @@ public class Main {
         
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
+        
+        System.out.println("avgTurnaround: " + scheduler.avgTurnaround());
+        System.out.println("avgWaiting: " + scheduler.avgWaiting());
+        System.out.println("TimeLines: \n" + scheduler.getTimeLines());
+        
+        
     }
     
     public static void testarHelpers() {
@@ -233,9 +243,9 @@ public class Main {
 //        testarFilaDinamica();
 //        testarLog();
 //        testarSort();
-//        testarRoundRobin();
-//        testarPrioridadePreemptivo();
-        testarHelpers();
+        testarRoundRobin();
+        testarPrioridadePreemptivo();
+//        testarHelpers();
 
     }
     

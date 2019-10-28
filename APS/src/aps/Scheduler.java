@@ -152,7 +152,58 @@ public class Scheduler {
             }
         }
     }
+    
+    public double avgTurnaround() {
+        if (this.isCompleted()) {
+            int sum = 0;
+            Queue<PCB> temp = new Queue<>();
+            while (!this.completed.isEmpty()) {
+                PCB pcb = this.completed.dequeue();
+                sum += pcb.turnaround();
+                temp.enqueue(pcb);
+            }
+            while (!temp.isEmpty()) {
+                this.completed.enqueue(temp.dequeue());
+            }
+            return sum / this.completed.getSize();
+        }
+        return -1;
+    }
 
+    public double avgWaiting() {
+        if (this.isCompleted()) {
+            int sum = 0;
+            Queue<PCB> temp = new Queue<>();
+            while (!this.completed.isEmpty()) {
+                PCB pcb = this.completed.dequeue();
+                sum += pcb.waiting();
+                temp.enqueue(pcb);
+            }
+            while (!temp.isEmpty()) {
+                this.completed.enqueue(temp.dequeue());
+            }
+            return sum / this.completed.getSize();
+        }
+        return -1;
+    }
+    
+    public String getTimeLines() {
+        if (this.isCompleted()) {
+            StringBuilder builder = new StringBuilder();
+            Queue<PCB> temp = new Queue<>();
+            while (!this.completed.isEmpty()) {
+                PCB pcb = this.completed.dequeue();
+                builder.append(pcb.getTimeLine()).append("\n");
+                temp.enqueue(pcb);
+            }
+            while (!temp.isEmpty()) {
+                this.completed.enqueue(temp.dequeue());
+            }
+            return builder.toString().trim();
+        }
+        return "";
+    }
+    
     @Override
     public String toString() {
         return this.dispatcher.getLogAsString();
