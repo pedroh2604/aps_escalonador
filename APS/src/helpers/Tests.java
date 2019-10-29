@@ -196,6 +196,9 @@ public class Tests {
     }
     
     public static void testHelpers() {
+        
+        System.out.println("\n\n****** TESTANDO HELPERS ******\n");
+        
         try {
             List<PCB> lista = RandomGenerator.generatePCBList(10, 0, 50);
             System.out.println("size: " + lista.getSize());
