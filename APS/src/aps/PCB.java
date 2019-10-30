@@ -8,6 +8,7 @@ package aps;
 import data_structures.IEquatable;
 import data_structures.IComparable;
 import data_structures.List;
+import java.util.Arrays;
 
 /**
  *
@@ -19,6 +20,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     private final int arrival; // momento no tempo absoluto em que entra na fila ready
     private final int duration; // número total de bursts necessários para completar a execução
     private final int ioRequests[]; // bursts em que haverá chamadas de i/o 
+    private final String ioRequestsString;
     private final int priority;
     private final List<Burst> bursts;
 
@@ -34,11 +36,29 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = ioRequests;
+        this.ioRequestsString = this.intArrayToString(ioRequests);
         this.priority = priority;
         this.bursts = new List<>();
     }
 
-        public PCB(String PID, int arrival, int duration, int[] ioRequests, int priority) {
+    public PCB(int arrival, int duration, String ioRequests, int priority) {
+        if (arrival < 0) {
+            throw new Error("O parâmetro arrival deve ser positivo");
+        }
+        if (priority < 0 || priority > 4) {
+            throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
+        }
+        counter++;
+        this.PID = "PID-" + counter;
+        this.arrival = arrival;
+        this.duration = duration;
+        this.ioRequests = this.stringToIntArray(ioRequests);
+        this.ioRequestsString = ioRequests;
+        this.priority = priority;
+        this.bursts = new List<>();
+    }
+    
+    public PCB(String PID, int arrival, int duration, int[] ioRequests, int priority) {
         if (arrival < 0) {
             throw new Error("O parâmetro arrival deve ser positivo");
         }
@@ -49,8 +69,38 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = ioRequests;
+        this.ioRequestsString = this.intArrayToString(ioRequests);
         this.priority = priority;
         this.bursts = new List<>();
+    }
+
+    public PCB(String PID, int arrival, int duration, String ioRequests, int priority) {
+        if (arrival < 0) {
+            throw new Error("O parâmetro arrival deve ser positivo");
+        }
+        if (priority < 0 || priority > 4) {
+            throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
+        }
+        this.PID = PID;
+        this.arrival = arrival;
+        this.duration = duration;
+        this.ioRequests = this.stringToIntArray(ioRequests);
+        this.ioRequestsString = ioRequests;
+        this.priority = priority;
+        this.bursts = new List<>();
+    }
+    
+    private String intArrayToString(int arr[]) {
+        return Arrays.toString(arr).replaceAll("\\[|\\]", "");
+    }
+    
+    private int[] stringToIntArray(String s) {
+        String arr[] = s.split(",");
+        int intArr[] = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            intArr[i] = Integer.parseInt(arr[i]);
+        }
+        return intArr;
     }
 
     public String getPID() {
@@ -69,6 +119,10 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         return this.ioRequests;
     }
 
+    public String getIoRequestsString() {
+        return ioRequestsString;
+    }
+    
     public int getPriority() {
         return this.priority;
     }
@@ -107,6 +161,9 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     }
 
     public int startTime() {
+        if (this.isCompleted() && this.bursts.getSize() == 0) {
+            return this.arrival;
+        }
         if (this.isStarted()) {
             return this.bursts.get(0).time;            
         }
@@ -115,6 +172,9 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
 
     public int endTime() {
         if (this.isCompleted()) {
+            if (this.bursts.getSize() == 0) {
+                return this.arrival;
+            }
             return this.bursts.get(this.bursts.getSize() - 1).time + 1;        
         }
         return -1;
