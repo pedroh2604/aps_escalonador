@@ -19,8 +19,8 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     private final String PID;
     private final int arrival; // momento no tempo absoluto em que entra na fila ready
     private final int duration; // número total de bursts necessários para completar a execução
-    private final int ioRequests[]; // bursts em que haverá chamadas de i/o 
-    private final String ioRequestsString;
+    private int ioRequests[]; // bursts em que haverá chamadas de i/o 
+    private String ioRequestsString;
     private final int priority;
     private final List<Burst> bursts;
 
@@ -116,10 +116,16 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     }
 
     public int[] getIoRequests() {
+        if (this.ioRequestsString.length() > 0 && this.ioRequests.length == 0) {
+            this.ioRequests = this.stringToIntArray(this.ioRequestsString);
+        }
         return this.ioRequests;
     }
 
     public String getIoRequestsString() {
+        if (this.ioRequestsString.length() == 0 && this.ioRequests.length > 0) {
+            this.ioRequestsString = this.intArrayToString(this.ioRequests);
+        }
         return ioRequestsString;
     }
     
@@ -150,6 +156,9 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     }
     
     public boolean isIORequested() {
+        if (this.ioRequestsString.length() > 0 && this.ioRequests.length == 0) {
+            this.ioRequests = this.stringToIntArray(this.ioRequestsString);
+        }
         if (!this.isCompleted()) {
             for (int burst: this.ioRequests) {
                 if (burst == this.bursts.getSize()) {
