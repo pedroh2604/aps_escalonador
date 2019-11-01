@@ -27,26 +27,9 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.stage.Popup; 
 
 public class MainController {
-
-    private void setTableData(List<PCB> list) {
-        ObservableList data = FXCollections.observableArrayList();
-        for (int i = 0; i < list.getSize(); i++) {
-            data.add(list.get(i));
-        }
-        table_pcbs.setItems(data);
-    }
-    
-    private List<PCB> getTableData() {
-        ObservableList<PCB> oList = this.table_pcbs.getItems();
-        List<PCB> list = new List<>();
-        for (int i = 0; i < oList.size(); i++) {
-            list.add(oList.get(i));
-        }
-        return list;
-    }
-    
     @FXML
     private ResourceBundle resources;
 
@@ -100,7 +83,7 @@ public class MainController {
 
     @FXML
     private TableColumn<PCB, String> col_iorequests;
-
+    
     @FXML
     void handleLoad(ActionEvent event) {
         var chooser = new FileChooser();
@@ -139,9 +122,33 @@ public class MainController {
         }
     }
     
+    private void setTableData(List<PCB> list) {
+        ObservableList data = FXCollections.observableArrayList();
+        for (int i = 0; i < list.getSize(); i++) {
+            data.add(list.get(i));
+        }
+        table_pcbs.setItems(data);
+    }
+    
+    private List<PCB> getTableData() {
+        ObservableList<PCB> oList = this.table_pcbs.getItems();
+        List<PCB> list = new List<>();
+        for (int i = 0; i < oList.size(); i++) {
+            list.add(oList.get(i));
+        }
+        return list;
+    }
+    
     @FXML
     void handleAdd(ActionEvent event) {
         System.out.println("Add clicked");
+        
+        // gets previous list table items
+        List<PCB> list = new List<>();
+        list = this.getTableData();
+        
+        list.add(RandomGenerator.generatePCB(0, 100));
+        this.setTableData(list);
     }
 
     @FXML
@@ -152,7 +159,14 @@ public class MainController {
     @FXML
     void handleRandom(ActionEvent event) {
         int size = this.spn_rand.valueProperty().getValue();
-        this.setTableData(RandomGenerator.generatePCBList(size, 0, 100));
+        
+        // gets previous list table items
+        List<PCB> list = new List<>();
+        list = this.getTableData();
+        
+//        list.add(RandomGenerator.generatePCB(0, 100));
+        list.addAll(RandomGenerator.generatePCBList(size, 0, 100));
+        this.setTableData(list);
     }
 
     @FXML

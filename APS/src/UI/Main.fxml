@@ -16,9 +16,9 @@
 
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
    <children>
-      <SplitPane dividerPositions="0.1885245901639344" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="612.0" prefWidth="333.0">
+      <SplitPane dividerPositions="0.1885245901639344" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="504.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="111.0" prefWidth="460.0">
                <children>
                   <Button id="btn_load" fx:id="btn_load" layoutX="11.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleLoad" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="80.0">
                      <graphic>
@@ -44,7 +44,7 @@
                         <Tooltip text="salvar" />
                      </tooltip>
                   </Button>
-                  <Button id="btn_run" fx:id="btn_run" layoutX="290.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleRun" AnchorPane.leftAnchor="290.0" AnchorPane.topAnchor="80.0">
+                  <Button id="btn_run" fx:id="btn_run" layoutX="321.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleRun" AnchorPane.leftAnchor="321.0" AnchorPane.topAnchor="67.0">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -88,23 +88,23 @@
                               <ToggleGroup fx:id="algorithm" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="radio_priority" mnemonicParsing="false" prefHeight="17.0" prefWidth="140.0" text="Prioridade Preemptivo" toggleGroup="$algorithm">
+                        <RadioButton fx:id="radio_priority" mnemonicParsing="false" prefHeight="17.0" prefWidth="250.0" text="Prioridade Preemptivo" toggleGroup="$algorithm">
                         </RadioButton>
                      </children>
                   </VBox>
-                  <Spinner id="spn_quantum" fx:id="spn_quantum" editable="true" initialValue="1" layoutX="251.0" layoutY="32.0" max="10" min="1" prefHeight="7.0" prefWidth="62.0" AnchorPane.leftAnchor="251.0" AnchorPane.topAnchor="32.0" />
-                  <Label layoutX="251.0" layoutY="14.0" text="Quantum:" AnchorPane.leftAnchor="251.0" AnchorPane.topAnchor="14.0" />
+                  <Spinner id="spn_quantum" fx:id="spn_quantum" editable="true" initialValue="1" layoutX="308.0" layoutY="30.0" max="10" min="1" prefHeight="7.0" prefWidth="62.0" AnchorPane.leftAnchor="308.0" AnchorPane.topAnchor="30.0" />
+                  <Label layoutX="308.0" layoutY="14.0" text="Quantum:" AnchorPane.leftAnchor="308.0" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
                   <TableView fx:id="table_pcbs" editable="true" layoutX="87.0" layoutY="13.0" onContextMenuRequested="#handleContextMenu" prefHeight="491.0" prefWidth="330.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="col_PID" editable="false" prefWidth="51.0" sortable="false" text="PID" />
-                      <TableColumn fx:id="col_arrival" editable="false" prefWidth="62.0" sortable="false" text="Arrival" />
-                        <TableColumn fx:id="col_duration" editable="false" prefWidth="65.0" sortable="false" text="Duration" />
-                        <TableColumn fx:id="col_priority" editable="false" prefWidth="69.0" sortable="false" text="Priority" />
-                        <TableColumn fx:id="col_iorequests" editable="false" prefWidth="82.0" sortable="false" text="IO Requests" />
+                      <TableColumn fx:id="col_PID" editable="false" prefWidth="100.0" sortable="false" text="PID" />
+                      <TableColumn fx:id="col_arrival" editable="false" prefWidth="100.0" sortable="false" text="Arrival" />
+                        <TableColumn fx:id="col_duration" editable="false" prefWidth="100.0" sortable="false" text="Duration" />
+                        <TableColumn fx:id="col_priority" editable="false" prefWidth="100.0" sortable="false" text="Priority" />
+                        <TableColumn fx:id="col_iorequests" editable="false" prefWidth="100.0" sortable="false" text="IO Requests" />
                     </columns>
                   </TableView>
                </children>

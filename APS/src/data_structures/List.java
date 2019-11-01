@@ -5,6 +5,8 @@
  */
 package data_structures;
 
+import aps.PCB;
+
 /**
  *
  * @author cmlima
@@ -183,6 +185,19 @@ public class List<T extends IEquatable & IComparable> {
         }
         return builder.toString().trim();
     }    
+
+    public void addAll(List<T> list) {
+        if (list.first == null) { // list is empty
+            throw new Error("Lista vazia");
+        }
+        
+        Node<T> node = list.first;
+        
+        while (node != null) {
+            this.add(node.data);
+            node = node.next;
+        }
+    }
 
 
     
