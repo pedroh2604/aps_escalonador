@@ -78,7 +78,23 @@ public class Queue<T extends IEquatable & IComparable> {
             this.dequeue();
         }
     }
-
+    
+    public Queue copy() {
+        if (this.isEmpty()) {
+            return null;
+        }
+        
+        Queue<T> copiedQueue = new Queue();
+        
+        Node<T> next = this.head;
+        while (next != null) {
+            copiedQueue.enqueue(next.data);
+            next = next.next;
+        }
+        
+        return copiedQueue;
+    }
+    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

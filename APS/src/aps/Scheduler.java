@@ -191,21 +191,22 @@ public class Scheduler {
         return -1;
     }
     
-    public String getTimeLines() {
-        if (this.isCompleted()) {
-            StringBuilder builder = new StringBuilder();
-            Queue<PCB> temp = new Queue<>();
-            while (!this.completed.isEmpty()) {
-                PCB pcb = this.completed.dequeue();
-                builder.append(pcb.getTimeLine()).append("\n");
-                temp.enqueue(pcb);
-            }
-            while (!temp.isEmpty()) {
-                this.completed.enqueue(temp.dequeue());
-            }
-            return builder.toString().trim();
+    public String getTimeLinesAsString() {
+        Queue<PCB> temp = this.getTimeLinesSerialized();
+        
+        if (temp == null) {return "";}
+        
+        StringBuilder builder = new StringBuilder();
+        while (!temp.isEmpty()) {
+            PCB pcb = temp.dequeue();
+            builder.append(pcb.getTimeLine()).append("\n");
         }
-        return "";
+            
+        return builder.toString().trim();
+    }
+    
+    public Queue getTimeLinesSerialized() {
+        return this.isCompleted() ? this.completed.copy() : null;
     }
     
     @Override
