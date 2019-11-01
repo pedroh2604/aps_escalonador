@@ -98,10 +98,10 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="table_pcbs" editable="true" layoutX="87.0" layoutY="13.0" onContextMenuRequested="#handleContextMenu" prefHeight="491.0" prefWidth="330.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="table_pcbs" editable="true" layoutX="87.0" layoutY="13.0" onContextMenuRequested="#handleRemove" prefHeight="491.0" prefWidth="330.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="col_PID" editable="false" prefWidth="100.0" sortable="false" text="PID" />
-                      <TableColumn fx:id="col_arrival" editable="false" prefWidth="100.0" sortable="false" text="Arrival" />
+                      <TableColumn fx:id="col_arrival" editable="false" onEditCommit="#handleEdit" prefWidth="100.0" sortable="false" text="Arrival" />
                         <TableColumn fx:id="col_duration" editable="false" prefWidth="100.0" sortable="false" text="Duration" />
                         <TableColumn fx:id="col_priority" editable="false" prefWidth="100.0" sortable="false" text="Priority" />
                         <TableColumn fx:id="col_iorequests" editable="false" prefWidth="100.0" sortable="false" text="IO Requests" />

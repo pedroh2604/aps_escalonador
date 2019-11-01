@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,7 +28,6 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.stage.Popup; 
 
 public class MainController {
     @FXML
@@ -141,8 +141,6 @@ public class MainController {
     
     @FXML
     void handleAdd(ActionEvent event) {
-        System.out.println("Add clicked");
-        
         // gets previous list table items
         List<PCB> list = new List<>();
         list = this.getTableData();
@@ -150,10 +148,22 @@ public class MainController {
         list.add(RandomGenerator.generatePCB(0, 100));
         this.setTableData(list);
     }
+    
+    @FXML
+    void handleEdit(ActionEvent event) {
+        System.out.println("Editing");
+        System.out.println("event: " + event);
+    }
 
     @FXML
-    void handleContextMenu(ContextMenuEvent event) {
-        System.out.println("Context menu");
+    void handleRemove(ContextMenuEvent event) {
+        int index = table_pcbs.getSelectionModel().selectedIndexProperty().get();
+        
+        List<PCB> list = new List<>();
+        list = this.getTableData();
+        
+        list.removeAt(index);
+        this.setTableData(list);
     }
 
     @FXML
@@ -164,7 +174,6 @@ public class MainController {
         List<PCB> list = new List<>();
         list = this.getTableData();
         
-//        list.add(RandomGenerator.generatePCB(0, 100));
         list.addAll(RandomGenerator.generatePCBList(size, 0, 100));
         this.setTableData(list);
     }
