@@ -158,7 +158,7 @@ public class MainController {
     @FXML
     void handleRemove(ContextMenuEvent event) {
         int index = table_pcbs.getSelectionModel().selectedIndexProperty().get();
-        
+        // TODO - change PIDs... they're not being updated as a PCB is removed
         List<PCB> list = new List<>();
         list = this.getTableData();
         
