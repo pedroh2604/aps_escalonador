@@ -51,6 +51,10 @@ public class Scheduler {
         this.jobs.add(pcb);
     }
     
+    public void addProcesses(List<PCB> list) {
+        this.jobs = list;
+    }
+    
     private void updatePriorityLists() {
         if (this.algorithm == ALGORITHM.PRIORITY_PREEMPTIVE) {
             Queue<PCB> temp = new Queue<>();

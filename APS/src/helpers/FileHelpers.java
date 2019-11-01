@@ -35,7 +35,11 @@ public class FileHelpers {
                 contentBuilder.append(line).append("\n");
             }
         }
-        return JSON.parse(contentBuilder.toString());
+        try {
+            return JSON.parse(contentBuilder.toString());
+        } catch (Exception e) {
+            throw new IOException("Arquivo inválido");
+        }
     }
     
 }
