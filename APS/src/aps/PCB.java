@@ -32,7 +32,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
             throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
         }
         counter++;
-        this.PID = "PID-" + counter;
+        this.PID = "PID-" + String.format("%03d", counter);
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = ioRequests;
