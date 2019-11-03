@@ -35,8 +35,9 @@ public class Dispatcher {
             LogItem item = this.log.get(i);
             builder.append(item.getTime()).append(" - ");
             builder.append(item.getPID()).append(" (prioridade: ");
-            builder.append(item.getPriority()).append(")\nFila: ");
-            builder.append(item.getQueue()).append("\n");
+            builder.append(item.getPriority()).append(", I/O: ");
+            builder.append(item.isIoRequested() ? "SIM" : "NÃO").append(")\nFila: ");
+            builder.append(item.getQueue()).append("\n\n");
         }
         return builder.toString().trim();
     }
@@ -48,7 +49,7 @@ public class Dispatcher {
     public void dispatch(PCB pcb, int bursts, String queue) {
         for (int i = 0; i < bursts; i++) {
             pcb.executeBurst(this.getTime());
-            this.log.add(new LogItem(this.getTime(), pcb.getPID(), pcb.getPriority(), queue));
+            this.log.add(new LogItem(this.getTime(), pcb.getPID(), pcb.getPriority(), pcb.isIORequested(), queue));
             this.cpu.tick();
             if (pcb.isCompleted() || pcb.isIORequested()) {
                 break;

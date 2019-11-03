@@ -198,19 +198,8 @@ public class Scheduler {
         }
         return -1;
     }
-    
-    public String getTimeLinesAsString() {
-        List<PCB> temp = this.getTimeLinesSerialized();
-        if (temp == null) {return "";}
-        StringBuilder builder = new StringBuilder();
-        while (!temp.isEmpty()) {
-            PCB pcb = temp.removeAt(0);
-            builder.append(pcb.getTimeLine()).append("\n");
-        }
-        return builder.toString().trim();
-    }
-    
-    public List getTimeLinesSerialized() {        
+
+    public List<PCB> getTimeLines() {        
         if (!this.isCompleted()) { return null; }
         
         List<PCB> list = new List<>();
@@ -220,6 +209,25 @@ public class Scheduler {
         }
         list.sortByName();
         return list;
+    }
+    
+    public String getTimeLinesAsString() {
+        List<PCB> temp = this.getTimeLines();
+        if (temp == null) {return "";}
+        StringBuilder builder = new StringBuilder();
+        while (!temp.isEmpty()) {
+            PCB pcb = temp.removeAt(0);
+            builder.append(pcb.getTimeLineAsString()).append("\n");
+        }
+        return builder.toString().trim();
+    }
+    
+    public List<LogItem> getLog() {
+        return this.dispatcher.getLog();
+    }
+    
+    public String getLogAsString() {
+        return this.dispatcher.getLogAsString();
     }
     
     @Override

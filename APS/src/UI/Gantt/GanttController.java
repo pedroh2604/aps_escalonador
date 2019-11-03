@@ -26,10 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -95,17 +92,45 @@ public class GanttController {
     private TableColumn<PCB, String> col_PID;
 
     @FXML
+    private TableColumn<PCB, Integer> col_arrival;
+
+    @FXML
+    private TableColumn<PCB, Integer> col_duration;
+
+    @FXML
+    private TableColumn<PCB, Integer> col_priority;
+
+    @FXML
+    private TableColumn<PCB, String> col_iorequests;
+    
+    @FXML
     private TableColumn<PCB, Integer> col_turnaround;
 
     @FXML
     private TableColumn<PCB, Integer> col_waiting;
 
     public void setData(Scheduler scheduler) {
-        this.txt_log.setText(scheduler.getTimeLinesAsString());
+        this.setLog(scheduler);
         this.setInfo(scheduler);
-        List<PCB> pcbs = scheduler.getTimeLinesSerialized();
+        List<PCB> pcbs = scheduler.getTimeLines();
         UIHelpers.setTableData(pcbs, this.table);
+        this.renderGrid(pcbs, scheduler.getAlgorithm());
         this.renderChart(pcbs, scheduler.getAlgorithm());
+    }
+    
+    private void setLog(Scheduler scheduler) {
+        var builder = new StringBuilder();
+        builder.append(scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN ? "ROUND ROBIN" : "PRIORIDADE PREEMPTIVO");
+        builder.append("\n");
+        if (scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN) {
+            builder.append("Quantum: ").append(scheduler.getQuantum()).append("\n");
+        }
+        builder.append("Avg. Turnaround: ").append(scheduler.avgTurnaround()).append("\n");
+        builder.append("Avg. Waiting: ").append(scheduler.avgWaiting()).append("\n");
+        builder.append("\n");
+        builder.append("Log: ").append("\n\n").append(scheduler.getLogAsString()).append("\n\n");
+        builder.append("Timelines:").append("\n\n").append(scheduler.getTimeLinesAsString());
+        this.txt_log.setText(builder.toString());
     }
     
     private void setInfo(Scheduler scheduler) {
@@ -116,29 +141,25 @@ public class GanttController {
         this.lbl_quantum.setVisible(scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN);
     }
     
-    private void renderChart(List<PCB> data, ALGORITHM algorithm) {
-        
-        final NumberAxis xAxis = new NumberAxis();
-        final CategoryAxis yAxis = new CategoryAxis();
-        final var chart = new GanttChart<Number,String>(xAxis,yAxis);
+    private void renderGrid(List<PCB> data, ALGORITHM algorithm) {
         
         GridPane grid = new GridPane();
         grid.setHgap(0);
         grid.setVgap(0);
         grid.setGridLinesVisible(false);
 
-        while (!data.isEmpty()) {
-            PCB currentPCB = data.removeAt(0);
-            XYChart.Series series = new XYChart.Series();
+        for (int i = 0; i < data.getSize(); i++) {
             
-            int timeline[] = currentPCB.getTimeLineSerialized();
-            for (int i = 0; i < timeline.length; i++) {
+            PCB currentPCB = data.get(i);
+            int timeline[] = currentPCB.getTimeLine();
+            
+            for (int j = 0; j < timeline.length; j++) {
+                
                 String title = currentPCB.getPID();
                 if (algorithm == ALGORITHM.PRIORITY_PREEMPTIVE) {
-                    title += "\n(Prioridade: " + currentPCB.getPriority() + ")";
+                    title += " (" + currentPCB.getPriority() + ")";
                 }
-                series.getData().add(new XYChart.Data(timeline[i], title ,new GanttChart.ExtraData( 1, cssClasses[cssClassIndex])));
-
+                
                 Text pid = new Text(title);
                 pid.setFont(Font.font("Arial", FontWeight.BOLD, 12));
                 pid.setTextAlignment(TextAlignment.CENTER);
@@ -150,27 +171,52 @@ public class GanttController {
                 StackPane.setMargin(pid, new Insets(2, 10, 2, 10));
                 GridPane.setFillHeight(pidPane, true);
                 GridPane.setFillWidth(pidPane, true);
-                grid.add(pidPane, timeline[i], 0);
+                grid.add(pidPane, timeline[j], 0);
+                
                 StackPane burstPane = new StackPane();
-                Label burst = new Label(Integer.toString(timeline[i]));
+                Label burst = new Label(Integer.toString(timeline[j]));
                 burst.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
                 burst.setTextAlignment(TextAlignment.LEFT);
                 burstPane.getChildren().addAll(burst);
                 burstPane.getStyleClass().add("timeline-burst");
                 StackPane.setAlignment(burst, Pos.CENTER_LEFT);
                 StackPane.setMargin(burst, new Insets(2));
-                grid.add(burstPane, timeline[i], 1);
+                grid.add(burstPane, timeline[j], 1);
                 GridPane.setFillHeight(burstPane, true);
                 GridPane.setFillWidth(burstPane, true);
+            }
+            cssClassIndex = (cssClassIndex + 1) % cssClasses.length;
+        }
+        
+        this.pane_grid.getStylesheets().add(getClass().getResource("timeline.css").toExternalForm());
+        this.pane_grid.setContent(grid);
+    }
+
+    private void renderChart(List<PCB> data, ALGORITHM algorithm) {
+        
+        final NumberAxis xAxis = new NumberAxis();
+        final CategoryAxis yAxis = new CategoryAxis();
+        final var chart = new GanttChart<Number,String>(xAxis,yAxis);
+        
+        for (int i = 0; i < data.getSize(); i++) {
+            
+            PCB currentPCB = data.get(i);
+            XYChart.Series series = new XYChart.Series();
+            int timeline[] = currentPCB.getTimeLine();
+            
+            for (int j = 0; j < timeline.length; j++) {
+                
+                String title = currentPCB.getPID();
+                
+                if (algorithm == ALGORITHM.PRIORITY_PREEMPTIVE) {
+                    title += "\n(" + currentPCB.getPriority() + ")";
+                }
+                series.getData().add(new XYChart.Data(timeline[j], title ,new GanttChart.ExtraData(1, cssClasses[cssClassIndex])));
             }
             
             cssClassIndex = (cssClassIndex + 1) % cssClasses.length;
             chart.getData().add(series);
         }
-        
-        this.pane_grid.getStylesheets().add(getClass().getResource("timeline.css").toExternalForm());
-        this.pane_grid.setContent(grid);
-        
         chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
         chart.setLegendVisible(false);
         this.pane_gantt.getChildren().addAll(chart);
@@ -179,6 +225,7 @@ public class GanttController {
         AnchorPane.setRightAnchor(chart, 0.0);
         AnchorPane.setTopAnchor(chart, 0.0);
     }
+    
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -204,11 +251,18 @@ public class GanttController {
         SplitPane.setResizableWithParent(this.pane_info, Boolean.FALSE);
         SplitPane.setResizableWithParent(this.pane_grid, Boolean.FALSE);
         this.col_PID.setCellValueFactory(new PropertyValueFactory<>("PID"));
+        this.col_arrival.setCellValueFactory(new PropertyValueFactory<>("arrival"));
+        this.col_duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        this.col_priority.setCellValueFactory(new PropertyValueFactory<>("priority"));
+        this.col_iorequests.setCellValueFactory(new PropertyValueFactory<>("ioRequestsString"));
         this.col_turnaround.setCellValueFactory(new PropertyValueFactory<>("turnaroundTime"));
         this.col_waiting.setCellValueFactory(new PropertyValueFactory<>("waitingTime"));
-        col_PID.setStyle( "-fx-alignment: CENTER;");        
-        col_turnaround.setStyle( "-fx-alignment: CENTER;");        
-        col_waiting.setStyle( "-fx-alignment: CENTER;");        
-        
+        this.col_PID.setStyle( "-fx-alignment: CENTER;");        
+        this.col_arrival.setStyle( "-fx-alignment: CENTER;");        
+        this.col_duration.setStyle( "-fx-alignment: CENTER;");        
+        this.col_priority.setStyle( "-fx-alignment: CENTER;");        
+        this.col_iorequests.setStyle( "-fx-alignment: CENTER;");
+        this.col_turnaround.setStyle( "-fx-alignment: CENTER;");        
+        this.col_waiting.setStyle( "-fx-alignment: CENTER;");                
     }
 }
