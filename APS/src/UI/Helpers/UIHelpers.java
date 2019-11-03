@@ -22,7 +22,7 @@ public class UIHelpers {
     
     public static void showErrorMessage(String message) {
         var alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
+        alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();    

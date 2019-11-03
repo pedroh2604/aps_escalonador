@@ -204,7 +204,7 @@ public class MainController {
             stage.setTitle("Gantt");
             stage.show();                
         } else {
-            // TODO - show error popup
+            UIHelpers.showErrorMessage("PCB list is empty");
         }
     }
 
