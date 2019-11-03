@@ -37,7 +37,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class GanttController {
-
+    static int cssClassIndex = 0;
+    String cssClasses[] = {"status-red", "status-green", "status-blue"};
+    
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -135,13 +137,13 @@ public class GanttController {
                 if (algorithm == ALGORITHM.PRIORITY_PREEMPTIVE) {
                     title += "\n(Prioridade: " + currentPCB.getPriority() + ")";
                 }
-                series.getData().add(new XYChart.Data(timeline[i], title ,new GanttChart.ExtraData( 1, "status-blue")));
+                series.getData().add(new XYChart.Data(timeline[i], title ,new GanttChart.ExtraData( 1, cssClasses[cssClassIndex])));
 
                 Text pid = new Text(title);
                 pid.setFont(Font.font("Arial", FontWeight.BOLD, 12));
                 pid.setTextAlignment(TextAlignment.CENTER);
                 StackPane pidPane = new StackPane();
-                pidPane.getStyleClass().add("status-blue");
+                pidPane.getStyleClass().add(cssClasses[cssClassIndex]);
                 pidPane.getStyleClass().add("timeline-pid");
                 pidPane.getChildren().addAll(pid);
                 StackPane.setAlignment(pid, Pos.CENTER);
@@ -162,6 +164,7 @@ public class GanttController {
                 GridPane.setFillWidth(burstPane, true);
             }
             
+            cssClassIndex = (cssClassIndex + 1) % cssClasses.length;
             chart.getData().add(series);
         }
         
