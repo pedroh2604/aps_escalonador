@@ -48,8 +48,6 @@ import javafx.stage.Stage;
 
 
 public class MainController {
-    int cssCounter = 0;
-
     @FXML
     private ResourceBundle resources;
 
@@ -225,8 +223,6 @@ public class MainController {
     }
     
     void displayGanttChart(Queue<PCB> data) {
-        String cssClasses[] = {"status-red", "status-green", "status-blue"};
-        
         Stage stage = new Stage();
         stage.setTitle("Resultado Algoritmo");
         
@@ -242,11 +238,10 @@ public class MainController {
             int timeline[] = currentPCB.getTimeLineSerialized();
             for (int i = 0; i < timeline.length; i++) {
                 String title = currentPCB.getPID() + " Turnaround: " + currentPCB.turnaround() + " Waiting: " + currentPCB.waiting();
-                series.getData().add(new XYChart.Data(timeline[i],title ,new ExtraData( 1, cssClasses[cssCounter])));
+                series.getData().add(new XYChart.Data(timeline[i],title ,new ExtraData( 1, "status-red")));
             }
             
             chart.getData().add(series);
-            cssCounter  = (cssCounter + 1) % cssClasses.length;
         }
         
         chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
