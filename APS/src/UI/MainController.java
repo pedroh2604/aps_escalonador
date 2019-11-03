@@ -34,10 +34,15 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -168,7 +173,22 @@ public class MainController {
     }
 
     @FXML
-    void handleRemove(ContextMenuEvent event) {
+    void handleContextMenu(ContextMenuEvent event) {
+        ContextMenu contextMenu = new ContextMenu();
+ 
+        MenuItem remove = new MenuItem("Remover Processo");
+        remove.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                removePCB();
+            }
+        });
+        
+        contextMenu.getItems().addAll(remove);
+        contextMenu.show((Node) event.getTarget(), event.getScreenX(), event.getScreenY());
+    }
+    
+    void removePCB () {
         int index = table_pcbs.getSelectionModel().selectedIndexProperty().get();
         // TODO - change PIDs... they're not being updated as a PCB is removed
         List<PCB> list = this.getTableData();
