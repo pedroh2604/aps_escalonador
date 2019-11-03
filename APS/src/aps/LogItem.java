@@ -7,7 +7,6 @@ package aps;
 
 import data_structures.IComparable;
 import data_structures.IEquatable;
-import data_structures.Queue;
 
 /**
  *
@@ -46,6 +45,11 @@ public class LogItem implements IEquatable<LogItem>, IComparable<LogItem> {
     @Override
     public int compareTo(LogItem other) {
         return this.getTime() - other.getTime();
+    }
+
+    @Override
+    public int compareToByName(LogItem other) {
+        return this.PID.compareTo(other.PID);
     }
 
     @Override

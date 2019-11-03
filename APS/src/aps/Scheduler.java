@@ -38,6 +38,10 @@ public class Scheduler {
         this.completed = new Queue<>();
     }
 
+    public ALGORITHM getAlgorithm() {
+        return algorithm;
+    }
+    
     public void setQuantum(int quantum) {
         // No caso do Prioridade Preemptivo, o quantum é
         // sempre 1, porque a cada passo é necessário checar
@@ -46,7 +50,11 @@ public class Scheduler {
             this.quantum = quantum;
         }
     }
-    
+
+    public int getQuantum() {
+        return quantum;
+    }
+
     public void addProcess(PCB pcb) {
         this.jobs.add(pcb);
     }
@@ -163,7 +171,7 @@ public class Scheduler {
             Queue<PCB> temp = new Queue<>();
             while (!this.completed.isEmpty()) {
                 PCB pcb = this.completed.dequeue();
-                sum += pcb.turnaround();
+                sum += pcb.getTurnaroundTime();
                 temp.enqueue(pcb);
             }
             while (!temp.isEmpty()) {
@@ -180,7 +188,7 @@ public class Scheduler {
             Queue<PCB> temp = new Queue<>();
             while (!this.completed.isEmpty()) {
                 PCB pcb = this.completed.dequeue();
-                sum += pcb.waiting();
+                sum += pcb.getWaitingTime();
                 temp.enqueue(pcb);
             }
             while (!temp.isEmpty()) {
@@ -192,21 +200,26 @@ public class Scheduler {
     }
     
     public String getTimeLinesAsString() {
-        Queue<PCB> temp = this.getTimeLinesSerialized();
-        
+        List<PCB> temp = this.getTimeLinesSerialized();
         if (temp == null) {return "";}
-        
         StringBuilder builder = new StringBuilder();
         while (!temp.isEmpty()) {
-            PCB pcb = temp.dequeue();
+            PCB pcb = temp.removeAt(0);
             builder.append(pcb.getTimeLine()).append("\n");
         }
-            
         return builder.toString().trim();
     }
     
-    public Queue getTimeLinesSerialized() {
-        return this.isCompleted() ? this.completed.copy() : null;
+    public List getTimeLinesSerialized() {        
+        if (!this.isCompleted()) { return null; }
+        
+        List<PCB> list = new List<>();
+        Queue<PCB> queue = this.completed.copy();
+        while(!queue.isEmpty()) {
+            list.add(queue.dequeue());
+        }
+        list.sortByName();
+        return list;
     }
     
     @Override

@@ -12,4 +12,5 @@ package data_structures;
  */
 public interface IComparable<T> {
     public int compareTo(T other);
+    public int compareToByName(T other);
 }

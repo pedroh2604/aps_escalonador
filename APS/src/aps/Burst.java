@@ -26,6 +26,11 @@ public class Burst implements IEquatable<Burst>, IComparable<Burst> {
     }
 
     @Override
+    public int compareToByName(Burst other) {
+        return this.time - other.time;
+    }
+
+    @Override
     public boolean isEqual(Burst other) {
         return this.time == other.time;
     }

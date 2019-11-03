@@ -174,6 +174,22 @@ public class List<T extends IEquatable & IComparable> {
             }
         }
     }
+
+    public void sortByName() {
+        boolean sorted = false;
+        T temp;
+        while (!sorted) {
+            sorted = true;
+            for (int i = 0; i < this.getSize() - 1; i++) {
+                if (this.get(i).compareToByName(this.get(i + 1)) > 0) {
+                    temp = this.get(i);
+                    this.set(this.get(i + 1), i);
+                    this.set(temp, i + 1);
+                    sorted = false;
+                }
+            }
+        }
+    }
     
     @Override
     public String toString() {

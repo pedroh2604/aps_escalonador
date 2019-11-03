@@ -14,17 +14,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
+<AnchorPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
    <children>
-      <SplitPane dividerPositions="0.1885245901639344" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="504.0">
+      <SplitPane fx:id="split_pane_main" dividerPositions="0.1885245901639344" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="504.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="111.0" prefWidth="460.0">
+          <AnchorPane fx:id="pane_controls" minHeight="0.0" minWidth="0.0" prefHeight="111.0" prefWidth="460.0">
                <children>
                   <Button id="btn_load" fx:id="btn_load" layoutX="11.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleLoad" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="80.0">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@folder-open.png" />
+                              <Image url="@assets/folder-open.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -36,7 +36,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@content-save.png" />
+                              <Image url="@assets/content-save.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -44,11 +44,11 @@
                         <Tooltip text="salvar" />
                      </tooltip>
                   </Button>
-                  <Button id="btn_run" fx:id="btn_run" layoutX="321.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleRun" AnchorPane.leftAnchor="321.0" AnchorPane.topAnchor="67.0">
+                  <Button id="btn_run" fx:id="btn_run" layoutX="417.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleRun" prefHeight="26.0" prefWidth="75.0" AnchorPane.leftAnchor="417.0" AnchorPane.topAnchor="80.0">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@run.png" />
+                              <Image url="@assets/run.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -60,7 +60,7 @@
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@plus.png" />
+                              <Image url="@assets/plus.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -72,7 +72,7 @@
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@counter.png" />
+                              <Image url="@assets/counter.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -80,23 +80,23 @@
                         <Tooltip text="gerar aleatório" />
                      </tooltip>
                   </Button>
-                  <Spinner id="spn_rand" fx:id="spn_rand" editable="true" initialValue="1" layoutX="178.0" layoutY="80.0" max="100" min="1" prefHeight="25.0" prefWidth="62.0" AnchorPane.leftAnchor="178.0" AnchorPane.topAnchor="80.0" />
-                  <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="47.0" prefWidth="182.0" spacing="15.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+                  <Spinner id="spn_rand" fx:id="spn_rand" editable="true" layoutX="178.0" layoutY="80.0" prefHeight="25.0" prefWidth="62.0" AnchorPane.leftAnchor="178.0" AnchorPane.topAnchor="80.0" />
+                  <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="49.0" prefWidth="152.0" spacing="15.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
                      <children>
-                        <RadioButton fx:id="radio_round_robin" mnemonicParsing="false" prefHeight="17.0" prefWidth="140.0" selected="true" text="Round Robin">
+                        <RadioButton fx:id="radio_round_robin" mnemonicParsing="false" onAction="#handleQuantum" prefHeight="17.0" prefWidth="140.0" selected="true" text="Round Robin">
                            <toggleGroup>
                               <ToggleGroup fx:id="algorithm" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="radio_priority" mnemonicParsing="false" prefHeight="17.0" prefWidth="250.0" text="Prioridade Preemptivo" toggleGroup="$algorithm">
+                        <RadioButton fx:id="radio_priority" mnemonicParsing="false" onAction="#handleQuantum" prefHeight="17.0" prefWidth="250.0" text="Prioridade Preemptivo" toggleGroup="$algorithm">
                         </RadioButton>
                      </children>
                   </VBox>
-                  <Spinner id="spn_quantum" fx:id="spn_quantum" editable="true" initialValue="1" layoutX="308.0" layoutY="30.0" max="10" min="1" prefHeight="7.0" prefWidth="62.0" AnchorPane.leftAnchor="308.0" AnchorPane.topAnchor="30.0" />
-                  <Label layoutX="308.0" layoutY="14.0" text="Quantum:" AnchorPane.leftAnchor="308.0" AnchorPane.topAnchor="14.0" />
+                  <Spinner id="spn_quantum" fx:id="spn_quantum" editable="true" layoutX="344.0" layoutY="80.0" prefHeight="7.0" prefWidth="62.0" AnchorPane.leftAnchor="344.0" AnchorPane.topAnchor="80.0" />
+                  <Label layoutX="344.0" layoutY="63.0" text="Quantum:" AnchorPane.leftAnchor="344.0" AnchorPane.topAnchor="63.0" />
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane fx:id="pane_table" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
                   <TableView fx:id="table_pcbs" editable="true" layoutX="87.0" layoutY="13.0" onContextMenuRequested="#handleContextMenu" prefHeight="491.0" prefWidth="330.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
@@ -112,4 +112,4 @@
         </items>
       </SplitPane>
    </children>
-</VBox>
+</AnchorPane>

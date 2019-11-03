@@ -189,17 +189,17 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         return -1;
     }
 
-    public int turnaround() {
+    public int getTurnaroundTime() {
         if (this.isCompleted()) {
             return this.endTime() - this.startTime();
         }
         return -1;
     }
 
-    public int waiting() {
+    public int getWaitingTime() {
         if (this.isCompleted()) {
             int waitToStart = this.startTime() - this.arrival;
-            int waitDuringBursts = this.turnaround() - this.duration;
+            int waitDuringBursts = this.getTurnaroundTime() - this.duration;
             return waitToStart + waitDuringBursts;
         }
         return -1;
@@ -213,8 +213,8 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         }
         builder.append("(arrival: ").append(this.arrival).append(", ");
         builder.append("duration: ").append(this.duration).append(", ");
-        builder.append("turnaround: ").append(this.turnaround()).append(", ");
-        builder.append("waiting: ").append(this.waiting()).append(")");
+        builder.append("turnaround: ").append(this.getTurnaroundTime()).append(", ");
+        builder.append("waiting: ").append(this.getWaitingTime()).append(")");
         return builder.toString().trim();
     }
     
@@ -241,6 +241,11 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         return this.getPID().compareTo(other.getPID());
     }
 
+    @Override
+    public int compareToByName(PCB other) {
+        return this.PID.compareTo(other.PID);
+    }
+    
     @Override
     public boolean isEqual(PCB other) {
         return this.getPID().equals(other.getPID());
