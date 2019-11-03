@@ -188,6 +188,7 @@ public class MainController {
         ALGORITHM algorithm = this.radio_round_robin.isSelected() ? ALGORITHM.ROUND_ROBIN : ALGORITHM.PRIORITY_PREEMPTIVE;
         int quantum = this.spn_quantum.valueProperty().getValue();
         List<PCB> list = UIHelpers.getTableData(table_pcbs);
+
         if (list.getSize() > 0) {
             var scheduler = new Scheduler(algorithm);
             scheduler.addProcesses(UIHelpers.getTableData(table_pcbs));
@@ -202,6 +203,8 @@ public class MainController {
             stage.setScene(scene);
             stage.setTitle("Gantt");
             stage.show();                
+        } else {
+            // TODO - show error popup
         }
     }
 
