@@ -13,8 +13,8 @@ import data_structures.List;
  */
 public class Dispatcher {
     
-    private CPU cpu;
-    private List<LogItem> log;
+    private final CPU cpu;
+    private final List<LogItem> log;
 
     public Dispatcher() {
         this.cpu = new CPU();

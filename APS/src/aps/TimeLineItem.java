@@ -16,9 +16,9 @@ public class TimeLineItem implements IEquatable<TimeLineItem>, IComparable<TimeL
 
     private int start;
     private int end;
-    private String PID;
-    private String color;
-    private int priority;
+    private final String PID;
+    private final String color;
+    private final int priority;
 
     public TimeLineItem(String PID, String color, int priority, int start, int end) {
         this.start = start;
