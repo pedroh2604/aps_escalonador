@@ -22,7 +22,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     private int ioRequests[]; // bursts em que haverá chamadas de i/o 
     private String ioRequestsString;
     private final int priority;
-    private final List<Burst> bursts;
+    private List<Burst> bursts;
 
     public PCB(int arrival, int duration, int[] ioRequests, int priority) {
         if (arrival < 0) {
@@ -55,7 +55,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         this.ioRequests = this.stringToIntArray(ioRequests);
         this.ioRequestsString = ioRequests;
         this.priority = priority;
-        this.bursts = new List<>();
+        this.reset();
     }
     
     public PCB(String PID, int arrival, int duration, int[] ioRequests, int priority) {
@@ -228,6 +228,10 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         builder.append("turnaround: ").append(this.getTurnaroundTime()).append(", ");
         builder.append("waiting: ").append(this.getWaitingTime()).append(")");
         return builder.toString().trim();
+    }
+    
+    public void reset() {
+        this.bursts = new List<>();
     }
     
     @Override

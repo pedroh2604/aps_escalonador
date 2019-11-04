@@ -187,17 +187,12 @@ public class MainController {
     void handleRun(ActionEvent event) throws IOException {
         ALGORITHM algorithm = this.radio_round_robin.isSelected() ? ALGORITHM.ROUND_ROBIN : ALGORITHM.PRIORITY_PREEMPTIVE;
         int quantum = this.spn_quantum.valueProperty().getValue();
-        List<PCB> list = UIHelpers.getTableData(table_pcbs);
-        
-        if (list.getSize() > 0) {
-            var scheduler = new Scheduler(algorithm);
-            scheduler.addProcesses(UIHelpers.getTableData(table_pcbs));
-            scheduler.setQuantum(this.spn_quantum.valueProperty().getValue());
-            scheduler.execute();            
+        List<PCB> pcbs = UIHelpers.getTableData(table_pcbs);
+        if (pcbs.getSize() > 0) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Gantt/Gantt.fxml"));
             Parent gantt = loader.load();
             GanttController ganttController = loader.getController();
-            ganttController.setData(scheduler);
+            ganttController.setData(algorithm, pcbs, quantum);
             Scene scene = new Scene(gantt);
             Stage stage = new Stage();
             stage.setScene(scene);

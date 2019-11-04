@@ -5,8 +5,6 @@
  */
 package data_structures;
 
-import aps.PCB;
-
 /**
  *
  * @author cmlima

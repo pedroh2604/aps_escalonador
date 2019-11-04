@@ -110,7 +110,11 @@ public class GanttController {
     @FXML
     private TableColumn<PCB, Integer> col_waiting;
 
-    public void setData(Scheduler scheduler) {
+    public void setData(ALGORITHM algorithm, List<PCB> pcbs, int quantum) {
+        var scheduler = new Scheduler(algorithm);
+        scheduler.addProcesses(pcbs);
+        scheduler.setQuantum(quantum);
+        scheduler.execute();            
         this.setLog(scheduler);
         this.setInfo(scheduler);
         UIHelpers.setTableData(scheduler.getCompletedList(), this.table);

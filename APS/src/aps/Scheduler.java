@@ -13,15 +13,15 @@ import data_structures.Queue;
  * @author cmlima
  */
 public class Scheduler {
-    private ALGORITHM algorithm;
+    private final ALGORITHM algorithm;
     private int quantum = 1;
     private Dispatcher dispatcher;
     private List<PCB> jobs;         // fila de novos
-    private Queue<PCB> ready;       // fila de prontos
-    private List<PCB> priority[];   // vetor de filas de prontos por prioridade (somente para prioridade preemptivo)
-    private Queue<PCB> wait;        // fila de processos com execução suspensa, esperando para voltar à fila de prontos
-    private Queue<PCB> io;          // fila de processos em chamada de I/O
-    private Queue<PCB> completed;   // fila de processos encerrados
+    private final Queue<PCB> ready;       // fila de prontos
+    private final List<PCB> priority[];   // vetor de filas de prontos por prioridade (somente para prioridade preemptivo)
+    private final Queue<PCB> wait;        // fila de processos com execução suspensa, esperando para voltar à fila de prontos
+    private final Queue<PCB> io;          // fila de processos em chamada de I/O
+    private final Queue<PCB> completed;   // fila de processos encerrados
 
     public Scheduler(ALGORITHM algorithm) {
         this.algorithm = algorithm;
@@ -56,10 +56,14 @@ public class Scheduler {
     }
 
     public void addProcess(PCB pcb) {
+        pcb.reset();
         this.jobs.add(pcb);
     }
     
     public void addProcesses(List<PCB> list) {
+        for (int i = 0; i < list.getSize(); i++) {
+            list.get(i).reset();
+        }
         this.jobs = list;
     }
     
