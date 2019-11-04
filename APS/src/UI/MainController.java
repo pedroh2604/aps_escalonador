@@ -172,14 +172,15 @@ public class MainController {
         int index = table_pcbs.getSelectionModel().selectedIndexProperty().get();
         // TODO - change PIDs... they're not being updated as a PCB is removed
         List<PCB> list = UIHelpers.getTableData(table_pcbs);
-        list.removeAt(index);
-        UIHelpers.setTableData(list, table_pcbs);
+        if (index >= 0 && index < list.getSize()) {
+            list.removeAt(index);
+            UIHelpers.setTableData(list, table_pcbs);        
+        }
     }
 
     @FXML
     void handleRandom(ActionEvent event) {
         int size = this.spn_rand.valueProperty().getValue();
-        
         // gets previous list table items
         List<PCB> list = UIHelpers.getTableData(table_pcbs);
         list.addAll(RandomGenerator.generatePCBList(size, 1, 10));
