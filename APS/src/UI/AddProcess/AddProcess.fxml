@@ -15,7 +15,7 @@
          <children>
             <AnchorPane prefHeight="87.0" prefWidth="299.0">
                <children>
-                  <Spinner fx:id="spn_arrival" layoutX="84.0" layoutY="46.0" prefHeight="25.0" prefWidth="74.0" />
+                  <Spinner fx:id="spn_arrival" editable="true" layoutX="84.0" layoutY="46.0" prefHeight="25.0" prefWidth="74.0" />
                   <Label layoutX="17.0" layoutY="51.0" text="Arrival">
                      <font>
                         <Font name="Arial Bold" size="12.0" />
@@ -26,7 +26,7 @@
                         <Font name="Arial Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Spinner fx:id="spn_priority" layoutX="84.0" layoutY="17.0" prefHeight="25.0" prefWidth="74.0" />
+                  <Spinner fx:id="spn_priority" editable="true" layoutX="84.0" layoutY="17.0" prefHeight="25.0" prefWidth="74.0" />
                </children>
             </AnchorPane>
             <TableView fx:id="table" editable="true" prefHeight="343.0" prefWidth="299.0">
@@ -43,7 +43,7 @@
                         <Font name="Arial Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Spinner fx:id="spn_bursts" layoutX="140.0" layoutY="15.0" prefHeight="25.0" prefWidth="74.0" />
+                  <Spinner fx:id="spn_bursts" editable="true" layoutX="140.0" layoutY="15.0" prefHeight="25.0" prefWidth="74.0" />
                   <Button fx:id="btn_done" layoutX="110.0" layoutY="57.0" mnemonicParsing="false" onAction="#handleDone" prefHeight="25.0" prefWidth="61.0" text="Done" />
                </children>
             </AnchorPane>

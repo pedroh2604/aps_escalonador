@@ -12,9 +12,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableCell;
@@ -65,7 +67,7 @@ public class AddProcessController {
     
     void handleBurstsChange(int bursts) {
         int rows = this.table.getItems().size();
-        if (rows != bursts) {
+        if (bursts > 0 && rows != bursts) {
             int diff = Math.abs(rows - bursts);
             List<Burst> list = UIHelpers.getTableData(table);
             for (int i = 0; i < diff; i++) {
@@ -75,8 +77,8 @@ public class AddProcessController {
                     list.removeAt(list.getSize() - 1);
                 }
             }
-            UIHelpers.setTableData(list, table);
-        }
+            UIHelpers.setTableData(list, table); 
+        }        
     }
     
     public PCB getData() {
@@ -138,8 +140,10 @@ public class AddProcessController {
                     burst.setCpu(isSelected);                
                 }
             });
+            cell.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            cell.setAlignment(Pos.CENTER);           
             return cell ;
-        });        
+     });        
         this.col_io.setCellFactory(param -> {
             var checkBox = new CheckBox();
             var cell = new TableCell<Burst, Boolean>() {
@@ -161,6 +165,8 @@ public class AddProcessController {
                     burst.setIo(isSelected);                
                 }
             });
+            cell.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            cell.setAlignment(Pos.CENTER);           
             return cell ;
         });        
         this.col_burst.setStyle( "-fx-alignment: CENTER;");
