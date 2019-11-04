@@ -166,9 +166,9 @@ public class Tests {
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
         
-        System.out.println("avgTurnaround: " + scheduler.avgTurnaround());
-        System.out.println("avgWaiting: " + scheduler.avgWaiting());
-        System.out.println("TimeLines: \n" + scheduler.getTimeLinesAsString());
+        System.out.println("avgTurnaround: " + scheduler.getAvgTurnaround());
+        System.out.println("avgWaiting: " + scheduler.GetAvgWaiting());
+        System.out.println("TimeLines: \n" + scheduler.getCompletedAsString());
     }
 
     public static void testPreemptivePriority() {
@@ -190,9 +190,9 @@ public class Tests {
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
         
-        System.out.println("avgTurnaround: " + scheduler.avgTurnaround());
-        System.out.println("avgWaiting: " + scheduler.avgWaiting());
-        System.out.println("TimeLines: \n" + scheduler.getTimeLinesAsString());
+        System.out.println("avgTurnaround: " + scheduler.getAvgTurnaround());
+        System.out.println("avgWaiting: " + scheduler.GetAvgWaiting());
+        System.out.println("TimeLines: \n" + scheduler.getCompletedAsString());
     }
     
     public static void testHelpers() {

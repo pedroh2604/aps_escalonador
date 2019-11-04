@@ -165,7 +165,7 @@ public class Scheduler {
         }
     }
     
-    public double avgTurnaround() {
+    public double getAvgTurnaround() {
         if (this.isCompleted()) {
             int sum = 0;
             Queue<PCB> temp = new Queue<>();
@@ -182,7 +182,7 @@ public class Scheduler {
         return -1;
     }
 
-    public double avgWaiting() {
+    public double GetAvgWaiting() {
         if (this.isCompleted()) {
             int sum = 0;
             Queue<PCB> temp = new Queue<>();
@@ -199,7 +199,7 @@ public class Scheduler {
         return -1;
     }
 
-    public List<PCB> getTimeLines() {        
+    public List<PCB> getCompletedList() {        
         if (!this.isCompleted()) { return null; }
         
         List<PCB> list = new List<>();
@@ -211,8 +211,8 @@ public class Scheduler {
         return list;
     }
     
-    public String getTimeLinesAsString() {
-        List<PCB> temp = this.getTimeLines();
+    public String getCompletedAsString() {
+        List<PCB> temp = this.getCompletedList();
         if (temp == null) {return "";}
         StringBuilder builder = new StringBuilder();
         while (!temp.isEmpty()) {
@@ -228,6 +228,31 @@ public class Scheduler {
     
     public String getLogAsString() {
         return this.dispatcher.getLogAsString();
+    }
+    
+    public List<TimeLineItem> getTimeLine() {
+        
+        var log = this.getLog();
+        var list = new List<TimeLineItem>();
+        
+        for (int i = 0; i < log.getSize(); i++) {
+            var item = log.get(i);
+            if (i == 0) {
+                list.add(new TimeLineItem(item.getPID(), item.getTime()));
+            } else if (log.get(i - 1).getTime() == item.getTime() - 1) { 
+                if (!log.get(i - 1).getPID().equals(item.getPID())) {
+                    list.get(list.getSize() - 1).setEnd(log.get(i - 1).getTime()+1);
+                    list.add(new TimeLineItem(item.getPID(), item.getTime()));
+                }
+            } else {
+                list.get(list.getSize()-1).setEnd(log.get(i-1).getTime()+1);
+                list.add(new TimeLineItem("", log.get(i-1).getTime()+1, item.getTime()));
+                list.add(new TimeLineItem(item.getPID(), item.getTime()));
+            }
+        }
+        list.get(list.getSize() - 1).setEnd(log.get(log.getSize() - 1).getTime()+1);
+        
+        return list;
     }
     
     @Override
