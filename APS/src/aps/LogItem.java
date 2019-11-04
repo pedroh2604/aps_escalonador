@@ -14,15 +14,17 @@ import data_structures.IEquatable;
  */
 public class LogItem implements IEquatable<LogItem>, IComparable<LogItem> {
 
-    private int time;
-    private String PID;
-    private int priority;
-    private String queue;
+    private final int time;
+    private final String PID;
+    private final int priority;
+    private final boolean ioRequested; 
+    private final String queue;
 
-    public LogItem(int time, String PID, int priority, String queue) {
+    public LogItem(int time, String PID, int priority, boolean ioRequested, String queue) {
         this.time = time;
         this.PID = PID;
         this.priority = priority;
+        this.ioRequested = ioRequested;
         this.queue = queue;
     }
 
@@ -38,6 +40,10 @@ public class LogItem implements IEquatable<LogItem>, IComparable<LogItem> {
         return priority;
     }
 
+    public boolean isIoRequested() {
+        return ioRequested;
+    }
+    
     public String getQueue() {
         return queue;
     }

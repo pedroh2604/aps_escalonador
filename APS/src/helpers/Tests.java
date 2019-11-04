@@ -46,15 +46,15 @@ public class Tests {
         System.out.println("isCompleted: " + pcb.isCompleted());
         System.out.println("remaining: " + pcb.remaining());
         System.out.println("isIORequested in " + pcb.elapsed() + ": " + pcb.isIORequested());
-        System.out.println("turnaround: " + pcb.turnaround());
-        System.out.println("waiting: " + pcb.waiting());
+        System.out.println("turnaround: " + pcb.getTurnaroundTime());
+        System.out.println("waiting: " + pcb.getWaitingTime());
         pcb.executeBurst(25);
         pcb.executeBurst(26);
         System.out.println("isCompleted: " + pcb.isCompleted());
         System.out.println("remaining: " + pcb.remaining());
         System.out.println("isIORequested: " + pcb.isIORequested());
-        System.out.println("turnaround: " + pcb.turnaround());
-        System.out.println("waiting: " + pcb.waiting());
+        System.out.println("turnaround: " + pcb.getTurnaroundTime());
+        System.out.println("waiting: " + pcb.getWaitingTime());
     }
     
     public static void testQueue() {
@@ -95,13 +95,13 @@ public class Tests {
         System.out.println("\n\n****** TESTANDO LOG ******\n");
         
         String queue1 = "";
-        LogItem item1 = new LogItem(0, "PID-1", 4, queue1);
+        LogItem item1 = new LogItem(0, "PID-1", 4, false, queue1);
         String queue2 = "PID-2 PID-3";
-        LogItem item2 = new LogItem(1, "PID-4", 3, queue2);
+        LogItem item2 = new LogItem(1, "PID-4", 3, true, queue2);
         String queue3 = "PID-3";
-        LogItem item3 = new LogItem(2, "PID-2", 4, queue3);
+        LogItem item3 = new LogItem(2, "PID-2", 4, false, queue3);
         String queue4 = "";
-        LogItem item4 = new LogItem(3, "PID-3", 2, queue4);
+        LogItem item4 = new LogItem(3, "PID-3", 2, false, queue4);
         List<LogItem> log = new List<>();
         System.out.println("size: " + log.getSize());
         System.out.println("isEmpty: " + log.isEmpty());
@@ -166,9 +166,9 @@ public class Tests {
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
         
-        System.out.println("avgTurnaround: " + scheduler.avgTurnaround());
-        System.out.println("avgWaiting: " + scheduler.avgWaiting());
-        System.out.println("TimeLines: \n" + scheduler.getTimeLinesAsString());
+        System.out.println("avgTurnaround: " + scheduler.getAvgTurnaround());
+        System.out.println("avgWaiting: " + scheduler.GetAvgWaiting());
+        System.out.println("TimeLines: \n" + scheduler.getCompletedAsString());
     }
 
     public static void testPreemptivePriority() {
@@ -190,9 +190,9 @@ public class Tests {
         scheduler.execute();
         System.out.println("Resultado\n" + scheduler.toString());
         
-        System.out.println("avgTurnaround: " + scheduler.avgTurnaround());
-        System.out.println("avgWaiting: " + scheduler.avgWaiting());
-        System.out.println("TimeLines: \n" + scheduler.getTimeLinesAsString());
+        System.out.println("avgTurnaround: " + scheduler.getAvgTurnaround());
+        System.out.println("avgWaiting: " + scheduler.GetAvgWaiting());
+        System.out.println("TimeLines: \n" + scheduler.getCompletedAsString());
     }
     
     public static void testHelpers() {

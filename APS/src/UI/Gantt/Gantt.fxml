@@ -11,28 +11,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="1082.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Gantt.GanttController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="1349.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Gantt.GanttController">
    <children>
       <TabPane layoutX="-216.0" layoutY="-188.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
-          <Tab fx:id="tab_log" text="Log">
-            <content>
-              <AnchorPane fx:id="pane_log" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextArea fx:id="txt_log" layoutX="7.0" layoutY="7.0" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
           <Tab fx:id="tab_gantt" text="Gantt">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <SplitPane fx:id="split_pane_main" dividerPositions="0.21799628942486085" prefHeight="309.0" prefWidth="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane fx:id="split_pane_main" dividerPositions="0.3348181143281366" prefHeight="309.0" prefWidth="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
                             <AnchorPane fx:id="anchor_pane_side" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <SplitPane dividerPositions="0.22358722358722358" layoutX="36.0" layoutY="49.0" orientation="VERTICAL" prefHeight="409.0" prefWidth="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <SplitPane dividerPositions="0.21043478260869566" layoutX="36.0" layoutY="49.0" orientation="VERTICAL" prefHeight="409.0" prefWidth="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <items>
                                         <AnchorPane fx:id="pane_info" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                              <children>
@@ -62,9 +53,13 @@
                                              <children>
                                                 <TableView fx:id="table" layoutX="14.0" layoutY="14.0" prefHeight="371.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                   <columns>
-                                                    <TableColumn fx:id="col_PID" prefWidth="62.0" text="PID" />
-                                                    <TableColumn fx:id="col_turnaround" prefWidth="83.0" text="Turnaround" />
-                                                      <TableColumn fx:id="col_waiting" prefWidth="84.0" text="Waiting" />
+                                                    <TableColumn fx:id="col_PID" prefWidth="51.0" text="PID" />
+                                                      <TableColumn fx:id="col_arrival" prefWidth="62.0" text="Arrival" />
+                                                      <TableColumn fx:id="col_duration" prefWidth="69.0" text="Duration" />
+                                                      <TableColumn fx:id="col_priority" prefWidth="57.0" text="Priority" />
+                                                      <TableColumn fx:id="col_iorequests" prefWidth="61.0" text="I/O" />
+                                                    <TableColumn fx:id="col_turnaround" prefWidth="75.0" text="Turnaround" />
+                                                      <TableColumn fx:id="col_waiting" prefWidth="69.0" text="Waiting" />
                                                   </columns>
                                                 </TableView>
                                              </children>
@@ -75,7 +70,7 @@
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="307.0" prefWidth="782.0">
                                  <children>
-                                    <SplitPane fx:id="split_pane_chart" dividerPositions="0.11410788381742738" layoutX="230.0" layoutY="65.0" orientation="VERTICAL" prefHeight="484.0" prefWidth="842.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <SplitPane fx:id="split_pane_chart" dividerPositions="0.13043478260869565" layoutX="230.0" layoutY="65.0" orientation="VERTICAL" prefHeight="484.0" prefWidth="842.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <items>
                                           <ScrollPane fx:id="pane_grid" prefHeight="48.0" prefWidth="840.0" />
                                         <AnchorPane fx:id="pane_gantt" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
@@ -85,6 +80,15 @@
                               </AnchorPane>
                           </items>
                         </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tab_log" text="Log">
+            <content>
+              <AnchorPane fx:id="pane_log" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="txt_log" layoutX="7.0" layoutY="7.0" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
             </content>

@@ -104,7 +104,7 @@
                       <TableColumn fx:id="col_arrival" editable="false" onEditCommit="#handleEdit" prefWidth="100.0" sortable="false" text="Arrival" />
                         <TableColumn fx:id="col_duration" editable="false" prefWidth="100.0" sortable="false" text="Duration" />
                         <TableColumn fx:id="col_priority" editable="false" prefWidth="100.0" sortable="false" text="Priority" />
-                        <TableColumn fx:id="col_iorequests" editable="false" prefWidth="100.0" sortable="false" text="IO Requests" />
+                        <TableColumn fx:id="col_iorequests" editable="false" prefWidth="100.0" sortable="false" text="I/O Requests" />
                     </columns>
                   </TableView>
                </children>

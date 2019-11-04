@@ -4,7 +4,6 @@ package helpers;
 import aps.PCB;
 import data_structures.List;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Random;
 
 public class RandomGenerator {
@@ -59,7 +58,7 @@ public class RandomGenerator {
             }
             int temp[] = new int[requests];
             for (int i = 0; i < requests; i++) {
-                temp[i] = generateInteger(arrival, arrival + duration);
+                temp[i] = generateInteger(0, duration);
             }
             ioRequests = toUniqueArray(temp);
             Arrays.sort(ioRequests);
