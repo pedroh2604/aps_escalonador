@@ -95,13 +95,13 @@ public class Tests {
         System.out.println("\n\n****** TESTANDO LOG ******\n");
         
         String queue1 = "";
-        LogItem item1 = new LogItem(0, "PID-1", 4, false, queue1);
+        LogItem item1 = new LogItem(0, "PID-1", "blue", 4, false, queue1);
         String queue2 = "PID-2 PID-3";
-        LogItem item2 = new LogItem(1, "PID-4", 3, true, queue2);
+        LogItem item2 = new LogItem(1, "PID-4", "green", 3, true, queue2);
         String queue3 = "PID-3";
-        LogItem item3 = new LogItem(2, "PID-2", 4, false, queue3);
+        LogItem item3 = new LogItem(2, "PID-2", "red", 4, false, queue3);
         String queue4 = "";
-        LogItem item4 = new LogItem(3, "PID-3", 2, false, queue4);
+        LogItem item4 = new LogItem(3, "PID-3", "yellow", 2, false, queue4);
         List<LogItem> log = new List<>();
         System.out.println("size: " + log.getSize());
         System.out.println("isEmpty: " + log.isEmpty());

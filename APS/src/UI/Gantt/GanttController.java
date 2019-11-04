@@ -13,7 +13,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -21,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -35,8 +35,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class GanttController {
-    static int cssClassIndex = 0;
-    String cssClasses[] = {"status-red", "status-green", "status-blue"};
     
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -124,12 +122,12 @@ public class GanttController {
     
     private void setLog(Scheduler scheduler) {
         var builder = new StringBuilder();
-        builder.append(scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN ? "ROUND ROBIN" : "PRIORIDADE PREEMPTIVO");
+        builder.append(scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN ? "ROUND ROBIN" : "PRIORITY PREEMPTIVE");
         builder.append("\n");
         if (scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN) {
-            builder.append("Quantum: ").append(scheduler.getQuantum()).append("\n");
+            builder.append("Quantum: ").append(scheduler.getQuantum()).append("\t");
         }
-        builder.append("Avg. Turnaround: ").append(scheduler.getAvgTurnaround()).append("\n");
+        builder.append("Avg. Turnaround: ").append(scheduler.getAvgTurnaround()).append("\t");
         builder.append("Avg. Waiting: ").append(scheduler.GetAvgWaiting()).append("\n");
         builder.append("\n");
         builder.append(scheduler.getLogAsString());
@@ -137,10 +135,10 @@ public class GanttController {
     }
     
     private void setInfo(Scheduler scheduler) {
-        this.lbl_algorithm.setText(scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN ? "Round Robin" : "Prioridade Preemptivo");
-        this.lbl_turnaround.setText("AvgTurnaround: " + scheduler.getAvgTurnaround());
-        this.lbl_waiting.setText("avgWaiting: " + scheduler.GetAvgWaiting());
-        this.lbl_quantum.setText("Quantum: " + scheduler.getQuantum());
+        this.lbl_algorithm.setText(scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN ? "Round Robin" : "Priority Preemptive");
+        this.lbl_turnaround.setText("Avg. Turnaround:\t" + scheduler.getAvgTurnaround());
+        this.lbl_waiting.setText("Avg. Waiting:\t\t" + scheduler.GetAvgWaiting());
+        this.lbl_quantum.setText("Quantum:\t\t\t" + scheduler.getQuantum());
         this.lbl_quantum.setVisible(scheduler.getAlgorithm() == ALGORITHM.ROUND_ROBIN);
     }
     
@@ -170,14 +168,13 @@ public class GanttController {
             var item = data.get(i);
             
             Text pid = new Text(item.getPID());
-            pid.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+            pid.setFont(Font.font("Arial", FontWeight.THIN, 12));
             pid.setTextAlignment(TextAlignment.CENTER);
             grid.add(pid, i, 0);
 
             StackPane chartPane = new StackPane();
             if (!item.isIdle()) {
-                chartPane.getStyleClass().add(cssClasses[cssClassIndex]);
-                chartPane.getStyleClass().add("timeline-pid");
+                chartPane.setStyle("-fx-background-color: " + item.getColor());
             }
             Text empty = new Text(" ");
             GridPane.setFillHeight(chartPane, true);
@@ -186,21 +183,18 @@ public class GanttController {
             grid.add(chartPane, i, 1);
 
             Text burst = new Text(Integer.toString(item.getStart()));
-            burst.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+            burst.setFont(Font.font("Arial", FontWeight.THIN, 12));
             burst.setTextAlignment(TextAlignment.LEFT);
             GridPane.setMargin(burst, new Insets(2, 5, 2, -3));
             grid.add(burst, i, 2);
             if (i == data.getSize() - 1) {
                 Text end = new Text(Integer.toString(item.getEnd()));
-                end.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+                end.setFont(Font.font("Arial", FontWeight.THIN, 12));
                 end.setTextAlignment(TextAlignment.LEFT);
                 GridPane.setMargin(end, new Insets(2, 5, 2, -3));
                 grid.add(end, i + 1, 2);                
             }
-            cssClassIndex = (cssClassIndex + 1) % cssClasses.length;
         }
-        
-        this.pane_grid.getStylesheets().add(getClass().getResource("timeline.css").toExternalForm());
         this.pane_grid.setContent(grid);
     }
 
@@ -210,28 +204,22 @@ public class GanttController {
         final CategoryAxis yAxis = new CategoryAxis();
         final var chart = new GanttChart<Number,String>(xAxis,yAxis);
         
-        var data = scheduler.getCompletedList();
+        var data = scheduler.getTimeLine();
         
         for (int i = 0; i < data.getSize(); i++) {
             
-            PCB currentPCB = data.get(i);
+            var item = data.get(i);
             XYChart.Series series = new XYChart.Series();
-            int timeline[] = currentPCB.getTimeLine();
-            
-            for (int j = 0; j < timeline.length; j++) {
+                String title = item.getPID();
                 
-                String title = currentPCB.getPID();
-                
-                if (scheduler.getAlgorithm() == ALGORITHM.PRIORITY_PREEMPTIVE) {
-                    title += "\n(" + currentPCB.getPriority() + ")";
-                }
-                series.getData().add(new XYChart.Data(timeline[j], title ,new GanttChart.ExtraData(1, cssClasses[cssClassIndex])));
+            if (scheduler.getAlgorithm() == ALGORITHM.PRIORITY_PREEMPTIVE) {
+                title += "\n(" + item.getPriority() + ")";
             }
+            series.getData().add(new XYChart.Data(item.getStart(), title, new GanttChart.ExtraData(item.getEnd() - item.getStart(), item.getColor())));
             
-            cssClassIndex = (cssClassIndex + 1) % cssClasses.length;
             chart.getData().add(series);
         }
-        chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
+//        chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
         chart.setLegendVisible(false);
         this.pane_gantt.getChildren().addAll(chart);
         AnchorPane.setBottomAnchor(chart, 0.0);
@@ -272,11 +260,21 @@ public class GanttController {
         this.col_turnaround.setCellValueFactory(new PropertyValueFactory<>("turnaroundTime"));
         this.col_waiting.setCellValueFactory(new PropertyValueFactory<>("waitingTime"));
         this.col_PID.setStyle( "-fx-alignment: CENTER;");        
+        this.col_PID.setCellFactory((TableColumn<PCB, String> col) -> new TableCell<PCB, String>() {
+            @Override public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null) {
+                    setText(item);
+                    String color = col.getTableView().getItems().get(indexProperty().getValue()).getColor();
+                    this.setStyle("-fx-text-fill: white; -fx-background-color: " + color + ";");
+                }
+            }
+        });
         this.col_arrival.setStyle( "-fx-alignment: CENTER;");        
         this.col_duration.setStyle( "-fx-alignment: CENTER;");        
         this.col_priority.setStyle( "-fx-alignment: CENTER;");        
         this.col_iorequests.setStyle( "-fx-alignment: CENTER;");
         this.col_turnaround.setStyle( "-fx-alignment: CENTER;");        
-        this.col_waiting.setStyle( "-fx-alignment: CENTER;");                
+        this.col_waiting.setStyle( "-fx-alignment: CENTER;");
     }
 }

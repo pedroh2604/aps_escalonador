@@ -17,6 +17,7 @@ public class List<T extends IEquatable & IComparable> {
     private int size;
 
     public List() {
+        this.last = this.first = null;
         this.size = 0;
     }
 
@@ -80,10 +81,21 @@ public class List<T extends IEquatable & IComparable> {
         }
         this.size++;
     }
+
+    public void addAll(List<T> list) {
+        if (list.isEmpty()) { // list is empty
+            throw new Error("List is empty");
+        }
+        Node<T> node = list.first;
+        while (node != null) {
+            this.add(node.data);
+            node = node.next;
+        }
+    }
     
     public T removeAt(int position) {
         if (this.isEmpty() || position > this.size || position < 0) {
-            throw new Error("Posição inválida");
+            throw new Error("Invalid position");
         }
         T temp;
         if (position == 0) {
@@ -133,7 +145,7 @@ public class List<T extends IEquatable & IComparable> {
     
     public T get(int position) {
         if (this.isEmpty() || position < 0 || position >= this.size) {
-            throw new Error("Índice inválido");
+            throw new Error("Invalid position");
         }
         int counter = 0;
         Node<T> node = this.first;
@@ -189,6 +201,11 @@ public class List<T extends IEquatable & IComparable> {
         }
     }
     
+    public void clear() {
+        this.first = this.last = null;
+        this.size = 0;
+    }
+    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -200,19 +217,4 @@ public class List<T extends IEquatable & IComparable> {
         return builder.toString().trim();
     }    
 
-    public void addAll(List<T> list) {
-        if (list.first == null) { // list is empty
-            throw new Error("Lista vazia");
-        }
-        
-        Node<T> node = list.first;
-        
-        while (node != null) {
-            this.add(node.data);
-            node = node.next;
-        }
-    }
-
-
-    
 }

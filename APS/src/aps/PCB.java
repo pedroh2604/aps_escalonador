@@ -5,6 +5,7 @@
  */
 package aps;
 
+import UI.Helpers.UIHelpers;
 import data_structures.IEquatable;
 import data_structures.IComparable;
 import data_structures.List;
@@ -15,14 +16,15 @@ import java.util.Arrays;
  * @author pedro
  */
 public class PCB implements IEquatable<PCB>, IComparable<PCB> {
-    public static int counter = 0;
+    private static int counter = 0;
     private final String PID;
+    private final String color;
     private final int arrival; // momento no tempo absoluto em que entra na fila ready
     private final int duration; // número total de bursts necessários para completar a execução
     private int ioRequests[]; // bursts em que haverá chamadas de i/o 
     private String ioRequestsString;
     private final int priority;
-    private List<Burst> bursts;
+    private final List<Burst> bursts;
 
     public PCB(int arrival, int duration, int[] ioRequests, int priority) {
         if (arrival < 0) {
@@ -31,8 +33,8 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         if (priority < 0 || priority > 4) {
             throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
         }
-        counter++;
-        this.PID = "PID-" + String.format("%03d", counter);
+        this.PID = "PID-" + String.format("%03d", ++counter);
+        this.color = UIHelpers.getColor();
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = ioRequests;
@@ -48,14 +50,14 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         if (priority < 0 || priority > 4) {
             throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
         }
-        counter++;
-        this.PID = "PID-" + counter;
+        this.PID = "PID-" + String.format("%03d", ++counter);
+        this.color = UIHelpers.getColor();
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = this.stringToIntArray(ioRequests);
         this.ioRequestsString = ioRequests;
         this.priority = priority;
-        this.reset();
+        this.bursts = new List<>();
     }
     
     public PCB(String PID, int arrival, int duration, int[] ioRequests, int priority) {
@@ -66,6 +68,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
             throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
         }
         this.PID = PID;
+        this.color = UIHelpers.getColor();
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = ioRequests;
@@ -82,6 +85,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
             throw new Error("O parâmetro priority deve ser um inteiro de 0 a 4");
         }
         this.PID = PID;
+        this.color = UIHelpers.getColor();
         this.arrival = arrival;
         this.duration = duration;
         this.ioRequests = this.stringToIntArray(ioRequests);
@@ -105,6 +109,10 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
 
     public String getPID() {
         return PID;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public int getArrival() {
@@ -174,7 +182,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
             return this.arrival;
         }
         if (this.isStarted()) {
-            return this.bursts.get(0).time;            
+            return this.bursts.get(0).getTime();            
         }
         return -1;
     }
@@ -184,7 +192,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
             if (this.bursts.getSize() == 0) {
                 return this.arrival;
             }
-            return this.bursts.get(this.bursts.getSize() - 1).time + 1;        
+            return this.bursts.get(this.bursts.getSize() - 1).getTime() + 1;        
         }
         return -1;
     }
@@ -211,7 +219,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         int burstsArr[] = new int[this.bursts.getSize()];
         
         for (int i = 0; i < this.bursts.getSize(); i++) {
-            burstsArr[i] = this.bursts.get(i).time;
+            burstsArr[i] = this.bursts.get(i).getTime();
         }
         
         return burstsArr;
@@ -221,7 +229,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         StringBuilder builder = new StringBuilder();
         builder.append(this.PID).append(": ");
         for (int i = 0; i < this.bursts.getSize(); i++) {
-            builder.append(this.bursts.get(i).time).append(" ");
+            builder.append(this.bursts.get(i).getTime()).append(" ");
         }
         builder.append("(arrival: ").append(this.arrival).append(", ");
         builder.append("duration: ").append(this.duration).append(", ");
@@ -231,7 +239,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     }
     
     public void reset() {
-        this.bursts = new List<>();
+        this.bursts.clear();
     }
     
     @Override

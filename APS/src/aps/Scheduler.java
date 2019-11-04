@@ -242,16 +242,16 @@ public class Scheduler {
         for (int i = 0; i < log.getSize(); i++) {
             var item = log.get(i);
             if (i == 0) {
-                list.add(new TimeLineItem(item.getPID(), item.getTime()));
+                list.add(new TimeLineItem(item.getPID(), item.getColor(), item.getPriority(), item.getTime()));
             } else if (log.get(i - 1).getTime() == item.getTime() - 1) { 
                 if (!log.get(i - 1).getPID().equals(item.getPID())) {
                     list.get(list.getSize() - 1).setEnd(log.get(i - 1).getTime()+1);
-                    list.add(new TimeLineItem(item.getPID(), item.getTime()));
+                    list.add(new TimeLineItem(item.getPID(), item.getColor(), item.getPriority(), item.getTime()));
                 }
             } else {
                 list.get(list.getSize()-1).setEnd(log.get(i-1).getTime()+1);
-                list.add(new TimeLineItem("", log.get(i-1).getTime()+1, item.getTime()));
-                list.add(new TimeLineItem(item.getPID(), item.getTime()));
+                list.add(new TimeLineItem("", log.get(i-1).getColor(), log.get(i-1).getPriority(), log.get(i-1).getTime()+1, item.getTime()));
+                list.add(new TimeLineItem(item.getPID(), item.getColor(), item.getPriority(), item.getTime()));
             }
         }
         list.get(list.getSize() - 1).setEnd(log.get(log.getSize() - 1).getTime()+1);

@@ -17,20 +17,28 @@ public class TimeLineItem implements IEquatable<TimeLineItem>, IComparable<TimeL
     private int start;
     private int end;
     private String PID;
+    private String color;
+    private int priority;
 
-    public TimeLineItem(String PID, int start, int end) {
+    public TimeLineItem(String PID, String color, int priority, int start, int end) {
         this.start = start;
         this.end = end;
         this.PID = PID;
+        this.color = color;
+        this.priority = priority;
     }
 
-    public TimeLineItem(String PID, int start) {
+    public TimeLineItem(String PID, String color, int priority, int start) {
         this.start = start;
         this.PID = PID;
+        this.color = color;
+        this.priority = priority;
     }
     
-    public TimeLineItem(String PID) {
+    public TimeLineItem(String PID, String color, int priority) {
         this.PID = PID;
+        this.color = color;
+        this.priority = priority;
     }
 
     public void setStart(int start) {
@@ -41,10 +49,6 @@ public class TimeLineItem implements IEquatable<TimeLineItem>, IComparable<TimeL
         this.end = end;
     }
 
-    public void setPID(String PID) {
-        this.PID = PID;
-    }
-    
     public int getStart() {
         return start;
     }
@@ -55,6 +59,14 @@ public class TimeLineItem implements IEquatable<TimeLineItem>, IComparable<TimeL
 
     public String getPID() {
         return PID;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public int getPriority() {
+        return priority;
     }
     
     public boolean isIdle() {

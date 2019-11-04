@@ -1,14 +1,11 @@
 package UI;
 
-import UI.Gantt.GanttChart;
-import UI.Gantt.GanttChart.ExtraData;
+import UI.AddProcess.AddProcessController;
 import UI.Gantt.GanttController;
 import UI.Helpers.UIHelpers;
 import aps.ALGORITHM;
 import aps.PCB;
-import aps.Scheduler;
 import data_structures.List;
-import data_structures.Queue;
 import helpers.FileHelpers;
 import helpers.RandomGenerator;
 import java.io.File;
@@ -32,9 +29,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SpinnerValueFactory;
@@ -133,11 +127,21 @@ public class MainController {
     }
     
     @FXML
-    void handleAdd(ActionEvent event) {
-        // gets previous list table items
-        List<PCB> list = UIHelpers.getTableData(table_pcbs);
-        list.add(RandomGenerator.generatePCB(1, 10));
-        UIHelpers.setTableData(list, table_pcbs);
+    void handleAdd(ActionEvent event) throws IOException {
+        var loader = new FXMLLoader(getClass().getResource("AddProcess/AddProcess.fxml"));
+        Scene scene = new Scene(loader.load());
+        AddProcessController controller = loader.getController();
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Add Process");
+        stage.setResizable(false);        
+        stage.showAndWait();
+        var pcb = controller.getData();
+        if (pcb != null) {
+            List<PCB> list = UIHelpers.getTableData(table_pcbs);
+            list.add(pcb);
+            UIHelpers.setTableData(list, table_pcbs);
+        }
     }
     
     @FXML
@@ -178,7 +182,6 @@ public class MainController {
         
         // gets previous list table items
         List<PCB> list = UIHelpers.getTableData(table_pcbs);
-        
         list.addAll(RandomGenerator.generatePCBList(size, 1, 10));
         UIHelpers.setTableData(list, table_pcbs);
     }
@@ -196,7 +199,7 @@ public class MainController {
             Scene scene = new Scene(gantt);
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setTitle("Gantt");
+            stage.setTitle("Execution Results");
             stage.show();                
         } else {
             UIHelpers.showErrorMessage("PCB list is empty");
@@ -231,10 +234,8 @@ public class MainController {
         col_duration.setStyle( "-fx-alignment: CENTER;");        
         col_priority.setStyle( "-fx-alignment: CENTER;");        
         col_iorequests.setStyle( "-fx-alignment: CENTER;");
-        SpinnerValueFactory<Integer> quantumValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
-        this.spn_quantum.setValueFactory(quantumValueFactory);
-        SpinnerValueFactory<Integer> randomValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1);
-        this.spn_rand.setValueFactory(randomValueFactory);
+        this.spn_quantum.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1));
+        this.spn_rand.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
     }
     
 }

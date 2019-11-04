@@ -31,13 +31,13 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
     public static class ExtraData {
 
         public long length;
-        public String styleClass;
+        public String color;
 
 
-        public ExtraData(long lengthMs, String styleClass) {
+        public ExtraData(long lengthMs, String color) {
             super();
             this.length = lengthMs;
-            this.styleClass = styleClass;
+            this.color = color;
         }
         public long getLength() {
             return length;
@@ -45,14 +45,12 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         public void setLength(long length) {
             this.length = length;
         }
-        public String getStyleClass() {
-            return styleClass;
+        public String getColor() {
+            return color;
         }
-        public void setStyleClass(String styleClass) {
-            this.styleClass = styleClass;
+        public void setColor(String color) {
+            this.color = color;
         }
-
-
     }
 
     private double blockHeight = 10;
@@ -69,8 +67,8 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         setData(data);
     }
 
-    private static String getStyleClass( Object obj) {
-        return ((ExtraData) obj).getStyleClass();
+    private static String getColor(Object obj) {
+        return ((ExtraData) obj).getColor();
     }
 
     private static double getLength( Object obj) {
@@ -173,8 +171,7 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
             item.setNode(container);
         }
 
-        container.getStyleClass().add( getStyleClass( item.getExtraValue()));
-
+        container.setStyle("-fx-background-color: " + getColor( item.getExtraValue()));
         return container;
     }
 
@@ -183,8 +180,8 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         final Axis<Y> ya = getYAxis();
         List<X> xData = null;
         List<Y> yData = null;
-        if(xa.isAutoRanging()) xData = new ArrayList<X>();
-        if(ya.isAutoRanging()) yData = new ArrayList<Y>();
+        if(xa.isAutoRanging()) xData = new ArrayList<>();
+        if(ya.isAutoRanging()) yData = new ArrayList<>();
         if(xData != null || yData != null) {
             for(Series<X,Y> series : getData()) {
                 for(Data<X,Y> data: series.getData()) {
