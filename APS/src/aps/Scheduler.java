@@ -171,7 +171,7 @@ public class Scheduler {
     
     public double getAvgTurnaround() {
         if (this.isCompleted()) {
-            int sum = 0;
+            double sum = 0;
             Queue<PCB> temp = new Queue<>();
             while (!this.completed.isEmpty()) {
                 PCB pcb = this.completed.dequeue();
@@ -188,7 +188,7 @@ public class Scheduler {
 
     public double GetAvgWaiting() {
         if (this.isCompleted()) {
-            int sum = 0;
+            double sum = 0;
             Queue<PCB> temp = new Queue<>();
             while (!this.completed.isEmpty()) {
                 PCB pcb = this.completed.dequeue();
