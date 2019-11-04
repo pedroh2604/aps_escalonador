@@ -184,13 +184,13 @@ public class GanttController {
             Text burst = new Text(Integer.toString(item.getStart()));
             burst.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
             burst.setTextAlignment(TextAlignment.LEFT);
-            GridPane.setMargin(burst, new Insets(2, 5, 2, -5));
+            GridPane.setMargin(burst, new Insets(2, 5, 2, -3));
             grid.add(burst, i, 2);
             if (i == data.getSize() - 1) {
                 Text end = new Text(Integer.toString(item.getEnd()));
                 end.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
                 end.setTextAlignment(TextAlignment.LEFT);
-                GridPane.setMargin(end, new Insets(2, 5, 2, -5));
+                GridPane.setMargin(end, new Insets(2, 5, 2, -3));
                 grid.add(end, i + 1, 2);                
             }
             cssClassIndex = (cssClassIndex + 1) % cssClasses.length;
