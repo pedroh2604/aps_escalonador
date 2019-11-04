@@ -94,6 +94,10 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
         this.bursts = new List<>();
     }
     
+    public static void clearCounter() {
+        counter = 0;
+    }
+    
     private String intArrayToString(int arr[]) {
         return Arrays.toString(arr).replaceAll("\\[|\\]", "");
     }

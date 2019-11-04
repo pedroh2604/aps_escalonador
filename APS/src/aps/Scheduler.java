@@ -79,6 +79,16 @@ public class Scheduler {
         }
     }
     
+    private void  rescueIOJobs() {
+        while (!this.io.isEmpty()) {
+            if (this.algorithm == ALGORITHM.ROUND_ROBIN) {
+                this.ready.enqueue(this.io.dequeue());
+            } else {
+                this.priority[this.io.front().getPriority()].add(this.io.dequeue());
+            }
+        }
+    }
+    
     private void getNewJobs() {
         while (!this.jobs.isEmpty() && this.jobs.get(0).getArrival() <= this.dispatcher.getTime()) {
             if (this.algorithm == ALGORITHM.ROUND_ROBIN) {
@@ -90,13 +100,6 @@ public class Scheduler {
     }
     
     private void  rescueWaitingJobs() {
-        while (!this.io.isEmpty()) {
-            if (this.algorithm == ALGORITHM.ROUND_ROBIN) {
-                this.ready.enqueue(this.io.dequeue());
-            } else {
-                this.priority[this.io.front().getPriority()].add(this.io.dequeue());
-            }
-        }
         if (this.algorithm == ALGORITHM.ROUND_ROBIN) {
             while (!this.wait.isEmpty()) {
                 this.ready.enqueue(this.wait.dequeue());
@@ -119,6 +122,7 @@ public class Scheduler {
     
     private void updateReadyQueue() {
         this.updatePriorityLists();
+        this.rescueIOJobs();
         this.getNewJobs();
         this.rescueWaitingJobs();
     }
@@ -155,10 +159,10 @@ public class Scheduler {
             Queue<PCB> queue = this.getReadyQueue();
             if (queue != null && !queue.isEmpty()) {
                 PCB running = queue.dequeue();
-                this.dispatcher.dispatch(running, this.quantum, queue.toString());
+                boolean quantumCompleted = this.dispatcher.dispatch(running, this.quantum, queue.toString());
                 if (running.isCompleted()) {
                     this.completed.enqueue(running);
-                } else if (running.isIORequested()) {
+                } else if (running.isIORequested() && !quantumCompleted) {
                     this.io.enqueue(running);
                 } else {
                     this.wait.enqueue(running);

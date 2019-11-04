@@ -1,0 +1,37 @@
+[
+    {
+        "duration": 10,
+        "arrival": 3,
+        "PID": "PID-001",
+        "priority": 0,
+        "ioRequests": []
+    },
+    {
+        "duration": 8,
+        "arrival": 1,
+        "PID": "PID-002",
+        "priority": 0,
+        "ioRequests": []
+    },
+    {
+        "duration": 2,
+        "arrival": 4,
+        "PID": "PID-003",
+        "priority": 0,
+        "ioRequests": []
+    },
+    {
+        "duration": 7,
+        "arrival": 6,
+        "PID": "PID-004",
+        "priority": 0,
+        "ioRequests": []
+    },
+    {
+        "duration": 5,
+        "arrival": 2,
+        "PID": "PID-005",
+        "priority": 0,
+        "ioRequests": []
+    }
+]

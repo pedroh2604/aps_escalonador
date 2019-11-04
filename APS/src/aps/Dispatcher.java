@@ -46,14 +46,16 @@ public class Dispatcher {
         this.cpu.tick();
     }
 
-    public void dispatch(PCB pcb, int bursts, String queue) {
+    // O valor booleano informa se o processo conseguiu executar todos os bursts (o quantum)
+    public boolean dispatch(PCB pcb, int bursts, String queue) {
         for (int i = 0; i < bursts; i++) {
             pcb.executeBurst(this.getTime());
             this.log.add(new LogItem(this.getTime(), pcb.getPID(), pcb.getColor(), pcb.getPriority(), pcb.isIORequested(), queue));
             this.cpu.tick();
             if (pcb.isCompleted() || pcb.isIORequested()) {
-                break;
+                return (i == bursts - 1);
             }
         }
+        return true;
     }
 }

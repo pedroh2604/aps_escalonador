@@ -56,7 +56,13 @@ public class MainController {
 
     @FXML
     private Button btn_rand;
+    
+    @FXML
+    private Button btn_remove_last;
 
+    @FXML
+    private Button btn_remove_all;
+    
     @FXML
     private Spinner<Integer> spn_rand;
 
@@ -155,26 +161,22 @@ public class MainController {
         if (table_pcbs.getItems().size() > 0) {
             ContextMenu contextMenu = new ContextMenu();
 
-            MenuItem remove = new MenuItem("Remover Processo");
+            MenuItem remove = new MenuItem("Remove Process");
             remove.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    removePCB();
+                    int index = table_pcbs.getSelectionModel().selectedIndexProperty().get();
+                    // TODO - change PIDs... they're not being updated as a PCB is removed
+                    List<PCB> list = UIHelpers.getTableData(table_pcbs);
+                    if (index >= 0 && index < list.getSize()) {
+                        list.removeAt(index);
+                        UIHelpers.setTableData(list, table_pcbs);        
+                    }
                 }
             });
 
             contextMenu.getItems().addAll(remove);
             contextMenu.show((Node) event.getTarget(), event.getScreenX(), event.getScreenY());
-        }
-    }
-    
-    private void removePCB () {
-        int index = table_pcbs.getSelectionModel().selectedIndexProperty().get();
-        // TODO - change PIDs... they're not being updated as a PCB is removed
-        List<PCB> list = UIHelpers.getTableData(table_pcbs);
-        if (index >= 0 && index < list.getSize()) {
-            list.removeAt(index);
-            UIHelpers.setTableData(list, table_pcbs);        
         }
     }
 
@@ -186,7 +188,26 @@ public class MainController {
         list.addAll(RandomGenerator.generatePCBList(size, 1, 10));
         UIHelpers.setTableData(list, table_pcbs);
     }
+    
+    @FXML
+    void handleRemoveLast(ActionEvent event) {
+        List<PCB> list = UIHelpers.getTableData(table_pcbs);
+        if (!list.isEmpty()) {
+            list.removeAt(list.getSize() - 1);
+            UIHelpers.setTableData(list, table_pcbs);        
+        }
+    }
 
+    @FXML
+    void handleRemoveAll(ActionEvent event) {
+        List<PCB> list = UIHelpers.getTableData(table_pcbs);
+        if (!list.isEmpty()) {
+            list.clear();
+            UIHelpers.setTableData(list, table_pcbs);        
+        }
+        PCB.clearCounter();
+    }
+    
     @FXML
     void handleRun(ActionEvent event) throws IOException {
         ALGORITHM algorithm = this.radio_round_robin.isSelected() ? ALGORITHM.ROUND_ROBIN : ALGORITHM.PRIORITY_PREEMPTIVE;

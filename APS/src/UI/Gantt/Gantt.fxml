@@ -11,15 +11,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Gantt.GanttController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="1163.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Gantt.GanttController">
    <children>
       <TabPane layoutX="-216.0" layoutY="-188.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab fx:id="tab_gantt" text="Gantt">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1025.0">
                      <children>
-                        <SplitPane fx:id="split_pane_main" dividerPositions="0.45090180360721444" prefHeight="309.0" prefWidth="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane fx:id="split_pane_main" dividerPositions="0.4289405684754522" prefHeight="309.0" prefWidth="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
                             <AnchorPane fx:id="anchor_pane_side" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
@@ -27,22 +27,22 @@
                                       <items>
                                         <AnchorPane fx:id="pane_info" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                              <children>
-                                                <Label fx:id="lbl_algorithm" layoutX="19.0" layoutY="14.0" prefHeight="21.0" prefWidth="152.0" text="Prioridade Preemptivo" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="14.0">
+                                                <Label fx:id="lbl_algorithm" layoutX="19.0" layoutY="14.0" prefHeight="21.0" prefWidth="152.0" text="Priority Preemptive" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="14.0">
                                                    <font>
                                                       <Font name="Arial Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="lbl_turnaround" layoutX="19.0" layoutY="84.0" prefHeight="21.0" prefWidth="152.0" text="Avg. Turnaround: " AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="84.0">
+                                                <Label fx:id="lbl_turnaround" layoutX="19.0" layoutY="84.0" prefHeight="21.0" prefWidth="300.0" text="Avg. Turnaround: " AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="84.0">
                                                    <font>
                                                       <Font name="Arial" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="lbl_waiting" layoutX="19.0" layoutY="63.0" prefHeight="21.0" prefWidth="152.0" text="Avg. Waiting: " AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="63.0">
+                                                <Label fx:id="lbl_waiting" layoutX="19.0" layoutY="63.0" prefHeight="21.0" prefWidth="300.0" text="Avg. Waiting: " AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="63.0">
                                                    <font>
                                                       <Font name="Arial" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="lbl_quantum" layoutX="19.0" layoutY="42.0" prefHeight="21.0" prefWidth="152.0" text="Quantum:">
+                                                <Label fx:id="lbl_quantum" layoutX="19.0" layoutY="42.0" prefHeight="21.0" prefWidth="300.0" text="Quantum:">
                                                    <font>
                                                       <Font name="Arial" size="12.0" />
                                                    </font>
@@ -53,13 +53,13 @@
                                              <children>
                                                 <TableView fx:id="table" layoutX="14.0" layoutY="14.0" prefHeight="371.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                   <columns>
-                                                    <TableColumn fx:id="col_PID" prefWidth="51.0" text="PID" />
-                                                      <TableColumn fx:id="col_arrival" prefWidth="62.0" text="Arrival" />
-                                                      <TableColumn fx:id="col_duration" prefWidth="69.0" text="Duration" />
-                                                      <TableColumn fx:id="col_priority" prefWidth="57.0" text="Priority" />
-                                                      <TableColumn fx:id="col_iorequests" prefWidth="61.0" text="I/O" />
-                                                      <TableColumn fx:id="col_waiting" prefWidth="69.0" text="Waiting" />
-                                                    <TableColumn fx:id="col_turnaround" prefWidth="75.0" text="Turnaround" />
+                                                    <TableColumn fx:id="col_PID" prefWidth="70.0" text="PID" />
+                                                      <TableColumn fx:id="col_arrival" prefWidth="70.0" text="Arrival" />
+                                                      <TableColumn fx:id="col_duration" prefWidth="70.0" text="Duration" />
+                                                      <TableColumn fx:id="col_priority" prefWidth="70.0" text="Priority" />
+                                                      <TableColumn fx:id="col_iorequests" prefWidth="70.0" text="I/O" />
+                                                      <TableColumn fx:id="col_waiting" prefWidth="70.0" text="Waiting" />
+                                                    <TableColumn fx:id="col_turnaround" prefWidth="70.0" text="Turnaround" />
                                                   </columns>
                                                 </TableView>
                                              </children>
