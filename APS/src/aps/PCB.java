@@ -199,7 +199,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
 
     public int getTurnaroundTime() {
         if (this.isCompleted()) {
-            return this.endTime() - this.startTime();
+            return this.endTime() - this.arrival;
         }
         return -1;
     }
@@ -207,7 +207,7 @@ public class PCB implements IEquatable<PCB>, IComparable<PCB> {
     public int getWaitingTime() {
         if (this.isCompleted()) {
             int waitToStart = this.startTime() - this.arrival;
-            int waitDuringBursts = this.getTurnaroundTime() - this.duration;
+            int waitDuringBursts = (this.endTime() - this.startTime()) - this.duration;
             return waitToStart + waitDuringBursts;
         }
         return -1;

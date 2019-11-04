@@ -219,7 +219,6 @@ public class GanttController {
             
             chart.getData().add(series);
         }
-//        chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
         chart.setLegendVisible(false);
         this.pane_gantt.getChildren().addAll(chart);
         AnchorPane.setBottomAnchor(chart, 0.0);
