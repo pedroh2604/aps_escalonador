@@ -58,7 +58,7 @@ public class RandomGenerator {
             }
             int temp[] = new int[requests];
             for (int i = 0; i < requests; i++) {
-                temp[i] = generateInteger(0, duration);
+                temp[i] = generateInteger(1, duration);
             }
             ioRequests = toUniqueArray(temp);
             Arrays.sort(ioRequests);

@@ -99,7 +99,7 @@ public class AddProcessController {
         int index = 0;
         for (int i = 0; i < duration; i++) {
             if (bursts.get(i).isIo()) {
-                ioRequests[index++] = bursts.get(i).getTime();
+                ioRequests[index++] = bursts.get(i).getTime() + 1;
             }
         }
         return new PCB(arrival, duration, ioRequests, priority);
@@ -118,6 +118,20 @@ public class AddProcessController {
         this.col_burst.setCellValueFactory(new PropertyValueFactory<>("time"));
         this.col_cpu.setCellValueFactory(new PropertyValueFactory<>("cpu"));
         this.col_io.setCellValueFactory(new PropertyValueFactory<>("io"));
+        this.col_burst.setCellFactory(param -> {
+            var cell = new TableCell<Burst, Integer>() {
+                @Override
+                public void updateItem(Integer time, boolean empty) {
+                    if (empty || time == null) {
+                        setText(null);
+                    } else {
+                        setText(Integer.toString(getIndex() + 1));
+                    }                    
+                }
+            };
+            cell.setAlignment(Pos.CENTER);           
+            return cell ;
+        });        
         this.col_cpu.setCellFactory(param -> {
             var checkBox = new CheckBox();
             var cell = new TableCell<Burst, Boolean>() {
@@ -143,7 +157,7 @@ public class AddProcessController {
             cell.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             cell.setAlignment(Pos.CENTER);           
             return cell ;
-     });        
+        });        
         this.col_io.setCellFactory(param -> {
             var checkBox = new CheckBox();
             var cell = new TableCell<Burst, Boolean>() {
